@@ -1,8 +1,0 @@
-Model Information:
-* title:	Curtiss P-40 Warhawk
-* source:	https://sketchfab.com/3d-models/curtiss-p-40-warhawk-4Wh27miUpLqq9B3NUuluXCwZ4Ie
-* author:	helijah (https://sketchfab.com/helijah)
-
-Model License:
-* license type:	SKETCHFAB Standard (https://sketchfab.com/licenses)
-* requirements:	Under basic restrictions, use worldwide, on all types of media, commercially or not, and in all types of derivative works
