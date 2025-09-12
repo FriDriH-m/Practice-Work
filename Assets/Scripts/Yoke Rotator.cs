@@ -9,6 +9,19 @@ public class YokeLookAtHand : MonoBehaviour
     [SerializeField] Vector3 forwardOffsetEuler = Vector3.zero;
     [SerializeField] float multiplie;
 
+    //[SerializeField]
+    //private AnimationCurve _dragForward = AnimationCurve.Linear(0, 0, 700, 0.5f);
+    ////[SerializeField]
+    //private AnimationCurve _dragBackward = AnimationCurve.Linear(0, 0, 700, 1f);
+    ////[SerializeField]
+    //private AnimationCurve _dragTop = AnimationCurve.Linear(0, 0, 700, 15f);
+    ////[SerializeField]
+    //private AnimationCurve _dragBottom = AnimationCurve.Linear(0, 0, 700, 15f);
+    ////[SerializeField]
+    //private AnimationCurve _dragLeft = AnimationCurve.Linear(0, 0, 700, 10f);
+    ////[SerializeField] 
+    //private AnimationCurve _dragRight = AnimationCurve.Linear(0, 0, 700, 10f);
+
     private void FirstVariant()
     {
         if (hand == null) return;
