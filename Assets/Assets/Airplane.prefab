@@ -375,7 +375,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 2552983597504429097}
+  - {fileID: 7702126258827250277}
   - {fileID: 2568929526258578335}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 91.299, z: 0}
@@ -418,68 +418,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c7cf16e13a1c074db12110643f9a440, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _dragOn: 1
+  _yoke: {fileID: 0}
   _maxThrust: 30000
   _thrust: 0
   _angularVelocityMultiply: 0
   _liftPower: 30
-  _coefficientOfLift:
+  _rudderPower: 0
+  _torque: 0
+  _liftCoefficient:
     serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: -90
-      value: 0
-      inSlope: 0.00029265508
-      outSlope: 0.00029265508
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0.26329088
-    - serializedVersion: 3
-      time: -15
-      value: -1
-      inSlope: 0.00014243551
-      outSlope: 0.00014243551
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.17647056
-      outWeight: 0.9490233
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0.11613983
-      outSlope: 0.11613983
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.1733191
-      outWeight: 0.04901961
-    - serializedVersion: 3
-      time: 15
-      value: 1
-      inSlope: -0.0005178939
-      outSlope: -0.0005178939
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.8266803
-      outWeight: 0.19411771
-    - serializedVersion: 3
-      time: 35.90504
-      value: 0.509099
-      inSlope: -0.027036045
-      outSlope: -0.027036045
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.16971259
-    - serializedVersion: 3
-      time: 90
-      value: -1
-      inSlope: -0.0008070675
-      outSlope: -0.0008070675
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33149955
-      outWeight: 0
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  _rubberCoefficient:
+    serializedVersion: 2
+    m_Curve: []
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
@@ -996,8 +950,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 451436444738410752}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.001, y: -1.002, z: 2.174}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.0010003522, y: -0.238, z: 2.1739824}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1007,7 +961,7 @@ Transform:
   - {fileID: 4576305509205415948}
   - {fileID: 4413557240682850615}
   - {fileID: 9081336674017946719}
-  m_Father: {fileID: 2116024498813853174}
+  m_Father: {fileID: 7702126258827250277}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &712916197942443822
 GameObject:
@@ -9554,6 +9508,38 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &8004907719205986046
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7702126258827250277}
+  m_Layer: 0
+  m_Name: Yoke
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7702126258827250277
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8004907719205986046}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.58, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 2552983597504429097}
+  m_Father: {fileID: 2116024498813853174}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8044704487068294167
 GameObject:
   m_ObjectHideFlags: 0

@@ -143,12 +143,12 @@ public class YokeLookAtHand : MonoBehaviour
 
     private void ThirdVariant()
     {
-        transform.LookAt(hand, yoke.right);
         transform.rotation *= Quaternion.Euler(forwardOffsetEuler);
+        transform.LookAt(hand, yoke.right);
     }
     void LateUpdate()
     {
-        ThirdVariant();
+        SecondVariant();
     }
 }
 

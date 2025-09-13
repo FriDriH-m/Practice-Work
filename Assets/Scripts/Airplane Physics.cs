@@ -2,50 +2,40 @@ using UnityEngine;
 
 public class AirplanePhysics : MonoBehaviour
 {
-    [SerializeField]
-    private bool _dragOn;
-    [SerializeField] 
-    private float _maxThrust = 100f;
-    [SerializeField, Range(0, 1)] 
-    private float _thrust;
-    [SerializeField] 
-    private float _angularVelocityMultiply;
-    [SerializeField]
-    private float _liftPower;
-    [SerializeField]
-    private AnimationCurve _coefficientOfLift;
-    [SerializeField]
-    private float _inducedDrag;
+    [SerializeField] private Transform _yoke;
+    [SerializeField] private float _maxThrust = 100f;
+    [SerializeField, Range(0, 1)] private float _thrust;
+    [SerializeField] private float _angularVelocityMultiply;
+    [SerializeField] private float _liftPower;
+    [SerializeField] private float _rudderPower;
+    [SerializeField] private float _torque;
+    [SerializeField] private AnimationCurve _liftCoefficient;
+    [SerializeField] private AnimationCurve _rubberCoefficient;
+    [SerializeField] private float _inducedDrag;
+    
 
     [Header("Drag coefficient")]
-    [SerializeField]
-    private AnimationCurve _dragForward;
-    [SerializeField]
-    private AnimationCurve _dragBackward;
-    [SerializeField]
-    private AnimationCurve _dragTop;
-    [SerializeField]
-    private AnimationCurve _dragBottom;
-    [SerializeField]
-    private AnimationCurve _dragLeft;
-    [SerializeField]
-    private AnimationCurve _dragRight;
+    [SerializeField] private AnimationCurve _dragForward;
+    [SerializeField] private AnimationCurve _dragBackward;
+    [SerializeField] private AnimationCurve _dragTop;
+    [SerializeField] private AnimationCurve _dragBottom;
+    [SerializeField] private AnimationCurve _dragLeft;
+    [SerializeField] private AnimationCurve _dragRight;
 
     private Rigidbody _rigidbody;
 
-    private float velocity;
-
-    private Vector3 _localVelocity;
-    private Vector3 _localAngularVelocity;
     private float _angleOfAttack;
     private float _angleOfAttackYaw;
+    private Vector3 _localVelocity;
+    private Vector3 _localAngularVelocity;
     private Vector3 _localGForce;
-
     private Vector3 _lastVelocity;
 
+    //------For Gizmos visualization------
     private Vector3 _lastLift;
     private Vector3 _lastInducedDrag;
     private Vector3 _lastDrag;
+    private Vector3 _yawForce;
 
     private void Awake()
     {
@@ -85,10 +75,16 @@ public class AirplanePhysics : MonoBehaviour
             Gizmos.DrawLine(transform.position, transform.position + worldDrag);
             Gizmos.DrawSphere(transform.position + worldDrag, 0.1f);
 
+            //Gizmos.color = Color.blue;
+            //Vector3 worldRudder = transform.TransformDirection(_yawForce) * 0.01f;
+            //Gizmos.DrawLine(transform.position, transform.position + worldRudder);
+            //Gizmos.DrawSphere(transform.position + worldRudder, 0.1f);
+
             // Подписи для сил
             UnityEditor.Handles.Label(transform.position + worldLift, "Lift");
             UnityEditor.Handles.Label(transform.position + worldInducedDrag, "Induced Drag");
             UnityEditor.Handles.Label(transform.position + worldDrag, "Drag");
+            //UnityEditor.Handles.Label(transform.position + worldRudder, "Rudder Force");
         }
     }
 
@@ -97,20 +93,19 @@ public class AirplanePhysics : MonoBehaviour
         float deltaTime = Time.fixedDeltaTime;
 
         UpdateCurrentState();
-        if (_dragOn)
-        {
-            CalculateDrag();
-        }        
+
+        CalculateDrag();
         CalculateAngleOfAttack();
         CalculateGForce(deltaTime);
 
         UpdateLift();
-
+        UpdateSteering(deltaTime);
 
         _rigidbody.AddRelativeForce(Vector3.forward * _thrust * _maxThrust); // Thrust (тяга)
         
-        _rigidbody.AddRelativeTorque(Vector3.forward * _angularVelocityMultiply);    
-        
+        _rigidbody.AddRelativeTorque(Vector3.forward * _angularVelocityMultiply, ForceMode.VelocityChange); // Roll (крен)
+
+        _rigidbody.AddRelativeTorque(Vector3.right * _torque, ForceMode.VelocityChange); // Pitch (тангаж)
     }
 
     private void UpdateCurrentState()
@@ -119,6 +114,38 @@ public class AirplanePhysics : MonoBehaviour
 
         _localVelocity = inverseRotation * _rigidbody.linearVelocity;
         _localAngularVelocity = inverseRotation * _rigidbody.angularVelocity;
+    }
+
+    private void UpdateLift()
+    {
+        if (_localVelocity.sqrMagnitude < 1f) return;
+
+        Vector3 lift = CalculateLift(_angleOfAttack, Vector3.right, _liftCoefficient, _liftPower);
+        //Vector3 yawForce = CalculateLift(_angleOfAttackYaw, Vector3.up, _rubberCoefficient, _rudderPower);
+
+        _lastLift = lift;
+        //_yawForce = yawForce;
+
+        Debug.Log("" + _localVelocity.magnitude * 3.6f + " | AoA = " + _angleOfAttack + " | Lift = " + lift.magnitude);
+        //Debug.Log(_angleOfAttackYaw);
+
+        _rigidbody.AddRelativeForce(lift);
+        //_rigidbody.AddRelativeForce(yawForce);
+    }
+
+    private void UpdateSteering(float deltaTime)
+    {
+        Debug.Log(_yoke.localRotation);
+        Vector3 targetTorque = new Vector3(_yoke.localRotation.x, 0, _yoke.localRotation.z);
+
+        _rigidbody.AddRelativeTorque(targetTorque);
+    }
+
+    private float CalculateSteering(float deltaTime, float angularVelocity, float targetVelocity, float acceleration)
+    {
+        float steering = angularVelocity - targetVelocity;
+        float acltion = acceleration * deltaTime;
+        return Mathf.Clamp(steering, -acltion, acltion);
     }
 
     private void CalculateAngleOfAttack()
@@ -136,7 +163,7 @@ public class AirplanePhysics : MonoBehaviour
 
         //Debug.Log(_angleOfAttack);
         //Debug.Log(_angleOfAttackYaw);
-        Debug.Log(_localGForce.magnitude);
+        //Debug.Log(_localGForce.magnitude);
     }
     private void CalculateGForce(float deltaTime)
     {
@@ -164,28 +191,16 @@ public class AirplanePhysics : MonoBehaviour
         _rigidbody.AddRelativeForce(drag);
     }
 
-    private void UpdateLift()
-    {
-        if (_localVelocity.sqrMagnitude < 1f) return;
+    
 
-        Vector3 lift = CalculateLift(_angleOfAttack, Vector3.right);
-        Vector3 yawForce = CalculateLift(_angleOfAttackYaw, Vector3.up);
-
-        _lastLift = lift;
-        
-        Debug.Log("" + _localVelocity.magnitude * 3.6f + " | AoA = " + _angleOfAttack + " | Lift = " + lift.magnitude);
-
-        _rigidbody.AddRelativeForce(lift);
-    }
-
-    private Vector3 CalculateLift(float angleOfAttack, Vector3 rightAxis)
+    private Vector3 CalculateLift(float angleOfAttack, Vector3 rightAxis, AnimationCurve ribberAOACurve, float liftPower)
     {
         var liftVelocity = Vector3.ProjectOnPlane(_localVelocity, rightAxis);
         Vector3 lclVelocity = _localVelocity;
         float lclVelocity2 = lclVelocity.sqrMagnitude;
 
-        float liftCoeficient = _coefficientOfLift.Evaluate(_angleOfAttack);
-        float liftForce = 0.5f * lclVelocity2 * liftCoeficient * _liftPower;
+        float liftCoeficient = ribberAOACurve.Evaluate(_angleOfAttack);
+        float liftForce = 0.5f * lclVelocity2 * liftCoeficient * liftPower;
 
         Vector3 liftDirection = Vector3.Cross(liftVelocity.normalized, rightAxis);
         Vector3 lift = liftDirection * liftForce;
