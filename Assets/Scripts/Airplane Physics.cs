@@ -1,18 +1,18 @@
+using System.Data;
 using UnityEngine;
 
 public class AirplanePhysics : MonoBehaviour
 {
+    [SerializeField] private float del = 80;
     [SerializeField] private Transform _yoke;
     [SerializeField] private float _maxThrust = 100f;
     [SerializeField, Range(0, 1)] private float _thrust;
-    [SerializeField] private float _angularVelocityMultiply;
     [SerializeField] private float _liftPower;
     [SerializeField] private float _rudderPower;
-    [SerializeField] private float _torque;
     [SerializeField] private AnimationCurve _liftCoefficient;
     [SerializeField] private AnimationCurve _rubberCoefficient;
     [SerializeField] private float _inducedDrag;
-    
+    [SerializeField] private AnimationCurve _sterringPower;
 
     [Header("Drag coefficient")]
     [SerializeField] private AnimationCurve _dragForward;
@@ -30,6 +30,8 @@ public class AirplanePhysics : MonoBehaviour
     private Vector3 _localAngularVelocity;
     private Vector3 _localGForce;
     private Vector3 _lastVelocity;
+
+    public Vector3 LocalVelocity => _localVelocity;
 
     //------For Gizmos visualization------
     private Vector3 _lastLift;
@@ -96,16 +98,12 @@ public class AirplanePhysics : MonoBehaviour
 
         CalculateDrag();
         CalculateAngleOfAttack();
-        CalculateGForce(deltaTime);
+        //CalculateGForce(deltaTime);
 
         UpdateLift();
         UpdateSteering(deltaTime);
 
         _rigidbody.AddRelativeForce(Vector3.forward * _thrust * _maxThrust); // Thrust (тяга)
-        
-        _rigidbody.AddRelativeTorque(Vector3.forward * _angularVelocityMultiply, ForceMode.VelocityChange); // Roll (крен)
-
-        _rigidbody.AddRelativeTorque(Vector3.right * _torque, ForceMode.VelocityChange); // Pitch (тангаж)
     }
 
     private void UpdateCurrentState()
@@ -126,7 +124,7 @@ public class AirplanePhysics : MonoBehaviour
         _lastLift = lift;
         //_yawForce = yawForce;
 
-        Debug.Log("" + _localVelocity.magnitude * 3.6f + " | AoA = " + _angleOfAttack + " | Lift = " + lift.magnitude);
+        //Debug.Log("" + _localVelocity.magnitude * 3.6f + " | AoA = " + _angleOfAttack + " | Lift = " + lift.magnitude);
         //Debug.Log(_angleOfAttackYaw);
 
         _rigidbody.AddRelativeForce(lift);
@@ -135,10 +133,14 @@ public class AirplanePhysics : MonoBehaviour
 
     private void UpdateSteering(float deltaTime)
     {
-        Debug.Log(_yoke.localRotation);
-        Vector3 targetTorque = new Vector3(_yoke.localRotation.x, 0, _yoke.localRotation.z);
+        Vector3 euler = _yoke.localEulerAngles;
 
-        _rigidbody.AddRelativeTorque(targetTorque);
+        float signedX = (euler.x > 180f) ? euler.x - 360f : euler.x;  
+        float signedZ = (euler.z > 180f) ? euler.z - 360f : euler.z; 
+
+        Vector3 targetTorque = new Vector3(signedZ/ del, 0, -signedX/ del);
+
+        _rigidbody.AddRelativeTorque(targetTorque * _sterringPower.Evaluate(_localVelocity.magnitude * 3.6f), ForceMode.VelocityChange);
     }
 
     private float CalculateSteering(float deltaTime, float angularVelocity, float targetVelocity, float acceleration)
@@ -170,6 +172,7 @@ public class AirplanePhysics : MonoBehaviour
         var inverseRotation = Quaternion.Inverse(_rigidbody.rotation);
         var acceleration = (_localVelocity - _lastVelocity) / deltaTime;
         _localGForce = inverseRotation * acceleration;
+        //Debug.Log(_localGForce.magnitude);
         _lastVelocity = _localVelocity;
     }
     private void CalculateDrag()
