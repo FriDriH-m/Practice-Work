@@ -1,9 +1,13 @@
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 using UnityEngine.XR.Interaction.Toolkit.Interactables;
-using UnityEngine.XR.Interaction.Toolkit.Interactors;
 
-public class YokeGrabHandler : MonoBehaviour
+public interface IHandRotator 
+{
+    public void SetHand(Transform hand);
+}
+
+public class GrabHandler<T> : MonoBehaviour where T : MonoBehaviour, IHandRotator
 {
     private void Awake()
     {
@@ -13,7 +17,7 @@ public class YokeGrabHandler : MonoBehaviour
     }
     private void Selected(SelectEnterEventArgs args)
     {
-        if (transform.TryGetComponent<YokeLookAtHand>(out YokeLookAtHand component))
+        if (transform.TryGetComponent<T>(out T component))
         {
             component.SetHand(args.interactorObject.transform);
         }
@@ -21,7 +25,7 @@ public class YokeGrabHandler : MonoBehaviour
 
     private void Unselected(SelectExitEventArgs args)
     {
-        if (transform.TryGetComponent<YokeLookAtHand>(out YokeLookAtHand component))
+        if (transform.TryGetComponent<T>(out T component))
         {
             component.SetHand(null);
         }

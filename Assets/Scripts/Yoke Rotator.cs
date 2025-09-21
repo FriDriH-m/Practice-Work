@@ -1,12 +1,12 @@
 ﻿using UnityEngine;
 
 
-public class YokeLookAtHand : MonoBehaviour
+public class YokeLookAtHand : MonoBehaviour, IHandRotator
 {
-    [SerializeField] Transform yoke;
-    [SerializeField] Vector3 forwardOffsetEuler = Vector3.zero;
-    Transform hand;
-    public void SetHandForYoke(Transform hand)
+    [SerializeField] private Transform yoke;
+    [SerializeField] private Vector3 forwardOffsetEuler = Vector3.zero;
+    private Transform hand;
+    public void SetHand(Transform hand)
     {
         this.hand = hand;
     }

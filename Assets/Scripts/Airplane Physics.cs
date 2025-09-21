@@ -102,7 +102,7 @@ public class AirplanePhysics : MonoBehaviour
 
         CalculateDrag();
         CalculateAngleOfAttack();
-        //CalculateGForce(deltaTime);
+        CalculateGForce(deltaTime);
 
         UpdateLift();
         UpdateSteering(deltaTime);
@@ -198,8 +198,6 @@ public class AirplanePhysics : MonoBehaviour
 
         _rigidbody.AddRelativeForce(drag);
     }
-
-    
 
     private Vector3 CalculateLift(float angleOfAttack, Vector3 rightAxis, AnimationCurve ribberAOACurve, float liftPower)
     {
