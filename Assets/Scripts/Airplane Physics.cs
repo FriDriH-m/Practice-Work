@@ -34,6 +34,7 @@ public class AirplanePhysics : MonoBehaviour
     private Vector3 _lastVelocity;
 
     public Vector3 LocalVelocity => _localVelocity;
+    public float Thrust => _thrust;
 
     //------For Gizmos visualization------
     private Vector3 _lastLift;
