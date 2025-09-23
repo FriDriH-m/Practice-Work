@@ -5,6 +5,15 @@ public class LeverRotator : MonoBehaviour, IHandRotator
     [SerializeField] private Transform _startPoint;
     [SerializeField] private Vector3 forwardOffsetEuler = Vector3.zero;
     private Transform _hand = null;
+    private AirplanePhysics _airplanePhysics;
+    private void Awake()
+    {
+        _airplanePhysics = GetComponentInParent<AirplanePhysics>();
+        if (_airplanePhysics == null)
+        {
+            Debug.LogWarning("LeverRotator: AerplanePhysics did not find");
+        }
+    }
     public void SetHand(Transform hand)
     {
         _hand = hand;
@@ -22,5 +31,7 @@ public class LeverRotator : MonoBehaviour, IHandRotator
         x = Mathf.Clamp(x, 0, 60);
 
         transform.localEulerAngles = new Vector3(x, 0, 0);
+
+        _airplanePhysics.SetThrustAccordingLeverAngles(x);
     }
 }

@@ -15,6 +15,5 @@ public class PropellerAnimator : MonoBehaviour
     private void Update()
     {
         _animator.speed = _airplanePhysics.Thrust * 10;
-
     }
 }

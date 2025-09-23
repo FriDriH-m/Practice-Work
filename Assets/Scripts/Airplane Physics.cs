@@ -112,6 +112,21 @@ public class AirplanePhysics : MonoBehaviour
         //Debug.Log(_angleOfAttackYaw + " | " + _localGForce.magnitude);
     }
 
+    public void SetThrustAccordingLeverAngles(float angle)
+    {        
+        if (angle == 0)
+        {
+            _thrust = 0;
+            return;
+        }
+        if (angle >= 60f)
+        {
+            _thrust = 1f;
+            return;
+        }
+        _thrust = angle / 60;
+    }
+
     private void UpdateCurrentState()
     {
         Quaternion inverseRotation = Quaternion.Inverse(_rigidbody.rotation);
