@@ -16,7 +16,7 @@ public class AirplanePhysics : MonoBehaviour
     [SerializeField] private AnimationCurve _sterringPower;
     [SerializeField] XRInputValueReader<float> m_TriggerInput;
 
-    [Header("Drag coefficient")]
+    [Header("Drag coefficients")]
     [SerializeField] private AnimationCurve _dragForward;
     [SerializeField] private AnimationCurve _dragBackward;
     [SerializeField] private AnimationCurve _dragTop;
@@ -34,6 +34,7 @@ public class AirplanePhysics : MonoBehaviour
     private Vector3 _lastVelocity;
 
     public Vector3 LocalVelocity => _localVelocity;
+    public Vector3 LocalAngularVelocity => _localAngularVelocity;
     public float Thrust => _thrust;
 
     //------For Gizmos visualization------
@@ -47,51 +48,51 @@ public class AirplanePhysics : MonoBehaviour
         _rigidbody = GetComponent<Rigidbody>();
     }
 
-    //private void OnDrawGizmos()
-    //{
-    //    //Gizmos.color = Color.blue;
-    //    //Vector3 worldForward = transform.TransformDirection(Vector3.forward) * 15;
-    //    //Gizmos.DrawLine(transform.position, transform.position + worldForward);
+    private void OnDrawGizmos()
+    {
+        //Gizmos.color = Color.blue;
+        //Vector3 worldForward = transform.TransformDirection(Vector3.forward) * 15;
+        //Gizmos.DrawLine(transform.position, transform.position + worldForward);
 
-    //    //Gizmos.color = Color.green;
-    //    //Vector3 worldLocalVelocity = transform.TransformDirection(_localVelocity);
-    //    //Gizmos.DrawLine(transform.position, transform.position + worldLocalVelocity);
+        //Gizmos.color = Color.green;
+        //Vector3 worldLocalVelocity = transform.TransformDirection(_localVelocity);
+        //Gizmos.DrawLine(transform.position, transform.position + worldLocalVelocity);
 
-    //    //Gizmos.color = Color.red;
-    //    //Vector3 worldLocalAngularVelocity = transform.TransformDirection(_localAngularVelocity);
-    //    //Gizmos.DrawLine(transform.position, transform.position + worldLocalAngularVelocity);
-    //    if (Application.isPlaying)
-    //    {
-    //        // Визуализация подъемной силы (зеленый)
-    //        Gizmos.color = Color.green;
-    //        Vector3 worldLift = transform.TransformDirection(_lastLift) * 0.01f;
-    //        Gizmos.DrawLine(transform.position, transform.position + worldLift);
-    //        Gizmos.DrawSphere(transform.position + worldLift, 0.1f);
+        //Gizmos.color = Color.red;
+        //Vector3 worldLocalAngularVelocity = transform.TransformDirection(_localAngularVelocity);
+        //Gizmos.DrawLine(transform.position, transform.position + worldLocalAngularVelocity);
+        if (Application.isPlaying)
+        {
+            // Визуализация подъемной силы (зеленый)
+            Gizmos.color = Color.green;
+            Vector3 worldLift = transform.TransformDirection(_lastLift) * 0.01f;
+            Gizmos.DrawLine(transform.position, transform.position + worldLift);
+            Gizmos.DrawSphere(transform.position + worldLift, 0.1f);
 
-    //        // Визуализация индуктивного сопротивления (желтый)
-    //        Gizmos.color = Color.yellow;
-    //        Vector3 worldInducedDrag = transform.TransformDirection(_lastInducedDrag) * 0.01f;
-    //        Gizmos.DrawLine(transform.position, transform.position + worldInducedDrag);
-    //        Gizmos.DrawSphere(transform.position + worldInducedDrag, 0.1f);
+            // Визуализация индуктивного сопротивления (желтый)
+            Gizmos.color = Color.yellow;
+            Vector3 worldInducedDrag = transform.TransformDirection(_lastInducedDrag) * 0.01f;
+            Gizmos.DrawLine(transform.position, transform.position + worldInducedDrag);
+            Gizmos.DrawSphere(transform.position + worldInducedDrag, 0.1f);
 
-    //        // Визуализация сопротивления (красный)
-    //        Gizmos.color = Color.red;
-    //        Vector3 worldDrag = transform.TransformDirection(_lastDrag) * 0.01f;
-    //        Gizmos.DrawLine(transform.position, transform.position + worldDrag);
-    //        Gizmos.DrawSphere(transform.position + worldDrag, 0.1f);
+            // Визуализация сопротивления (красный)
+            Gizmos.color = Color.red;
+            Vector3 worldDrag = transform.TransformDirection(_lastDrag) * 0.01f;
+            Gizmos.DrawLine(transform.position, transform.position + worldDrag);
+            Gizmos.DrawSphere(transform.position + worldDrag, 0.1f);
 
-    //        Gizmos.color = Color.blue;
-    //        Vector3 worldRudder = transform.TransformDirection(_yawForce) * 0.01f;
-    //        Gizmos.DrawLine(transform.position, transform.position + worldRudder);
-    //        Gizmos.DrawSphere(transform.position + worldRudder, 0.1f);
+            Gizmos.color = Color.blue;
+            Vector3 worldRudder = transform.TransformDirection(_yawForce) * 0.01f;
+            Gizmos.DrawLine(transform.position, transform.position + worldRudder);
+            Gizmos.DrawSphere(transform.position + worldRudder, 0.1f);
 
-    //        // Подписи для сил
-    //        UnityEditor.Handles.Label(transform.position + worldLift, "Lift");
-    //        UnityEditor.Handles.Label(transform.position + worldInducedDrag, "Induced Drag");
-    //        UnityEditor.Handles.Label(transform.position + worldDrag, "Drag");
-    //        UnityEditor.Handles.Label(transform.position + worldRudder, "Rudder Force");
-    //    }
-    //}
+            // Подписи для сил
+            UnityEditor.Handles.Label(transform.position + worldLift, "Lift");
+            UnityEditor.Handles.Label(transform.position + worldInducedDrag, "Induced Drag");
+            UnityEditor.Handles.Label(transform.position + worldDrag, "Drag");
+            UnityEditor.Handles.Label(transform.position + worldRudder, "Rudder Force");
+        }
+    }
 
     private void FixedUpdate()
     {
@@ -140,13 +141,10 @@ public class AirplanePhysics : MonoBehaviour
         if (_localVelocity.sqrMagnitude < 1f) return;
 
         Vector3 lift = CalculateLift(_angleOfAttack, Vector3.right, _liftCoefficient, _liftPower);
-        Vector3 yawForce = CalculateLift(_angleOfAttackYaw, Vector3.up, _rubberCoefficient, _rudderPower);
+        Vector3 yawForce = CalculateLift2(_angleOfAttackYaw, Vector3.up, _rubberCoefficient, _rudderPower);
 
         _lastLift = lift;
         _yawForce = yawForce;
-
-        //Debug.Log("" + _localVelocity.magnitude * 3.6f + " | AoA = " + _angleOfAttack + " | Lift = " + lift.magnitude);
-        
 
         _rigidbody.AddRelativeForce(lift);
         _rigidbody.AddRelativeForce(yawForce);
@@ -159,7 +157,7 @@ public class AirplanePhysics : MonoBehaviour
         float signedX = (euler.x > 180f) ? euler.x - 360f : euler.x;  
         float signedZ = (euler.z > 180f) ? euler.z - 360f : euler.z; 
 
-        Vector3 targetTorque = new Vector3(signedZ/ del, 0, -signedX/ del);
+        Vector3 targetTorque = new Vector3(signedZ/ 1200, 0, -signedX/ 400);
 
         _rigidbody.AddRelativeTorque(targetTorque * _sterringPower.Evaluate(_localVelocity.magnitude * 3.6f), ForceMode.VelocityChange);
     }
@@ -206,7 +204,7 @@ public class AirplanePhysics : MonoBehaviour
             _dragRight.Evaluate(Mathf.Abs(lclVelocity.x)), _dragLeft.Evaluate(Mathf.Abs(lclVelocity.x)),
             _dragTop.Evaluate(Mathf.Abs(lclVelocity.y)), _dragBottom.Evaluate(Mathf.Abs(lclVelocity.y)),
             _dragForward.Evaluate(Mathf.Abs(lclVelocity.z)), _dragBackward.Evaluate(Mathf.Abs(lclVelocity.z))
-            );
+         );
 
         var drag = 0.5f * dragCoefficient.magnitude * lclVelocity2 * -lclVelocity; // формула D = 1/2 * V^2 * Cd
 
@@ -227,12 +225,35 @@ public class AirplanePhysics : MonoBehaviour
         Vector3 liftDirection = Vector3.Cross(liftVelocity.normalized, rightAxis);
         Vector3 lift = liftDirection * liftForce;
 
+        
         float inducedDragForce = liftCoeficient * liftCoeficient * _inducedDrag;
+        Debug.Log("Induced Drag of lift:" + inducedDragForce);
         Vector3 inducedDragDirection = -liftVelocity.normalized;
         Vector3 inducedDrag = inducedDragDirection * inducedDragForce;
 
         _lastInducedDrag = inducedDrag;
 
+        return lift + inducedDrag;
+    }
+    private Vector3 CalculateLift2(float angleOfAttack, Vector3 rightAxis, AnimationCurve ribberAOACurve, float liftPower)
+    {
+        var liftVelocity = Vector3.ProjectOnPlane(_localVelocity, rightAxis);
+        Vector3 lclVelocity = _localVelocity;
+        float lclVelocity2 = lclVelocity.sqrMagnitude;
+
+        float liftCoeficient = ribberAOACurve.Evaluate(angleOfAttack);
+        float liftForce = 0.5f * lclVelocity2 * liftCoeficient * liftPower;
+
+        Vector3 liftDirection = Vector3.Cross(liftVelocity.normalized, rightAxis);
+        Vector3 lift = liftDirection * liftForce;
+
+
+        float inducedDragForce = liftCoeficient * liftCoeficient * _inducedDrag;
+        Debug.Log("Induced Drag of yawForce:" + inducedDragForce);
+        Vector3 inducedDragDirection = -liftVelocity.normalized;
+        Vector3 inducedDrag = inducedDragDirection * inducedDragForce;
+
+        _lastInducedDrag = inducedDrag;
 
         return lift + inducedDrag;
     }
