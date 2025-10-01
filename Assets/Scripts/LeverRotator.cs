@@ -6,13 +6,15 @@ public class LeverRotator : MonoBehaviour, IHandRotator
     [SerializeField] private Vector3 forwardOffsetEuler = Vector3.zero;
     private Transform _hand = null;
     private AirplanePhysics _airplanePhysics;
-    private void Awake()
+    private void Start()
     {
         _airplanePhysics = GetComponentInParent<AirplanePhysics>();
-        if (_airplanePhysics == null)
-        {
-            Debug.LogWarning("LeverRotator: AerplanePhysics did not find");
-        }
+        //_airplanePhysics = ServiceLocator.Instance.Get<AirplanePhysics>();
+        //if ( _airplanePhysics == null )
+        //{
+        //    Debug.LogError("LevelRotator: ServiceLocator does not contain a " + typeof(AirplanePhysics));
+        //    return;
+        //}
     }
     public void SetHand(Transform hand)
     {

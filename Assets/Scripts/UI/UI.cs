@@ -7,12 +7,14 @@ public class UI : MonoBehaviour
     private AirplanePhysics _airplanePhysics;
     private float _planeSpeed;
 
-    private void Awake()
+    private void Start()
     {
-        if (GetComponentInParent<AirplanePhysics>() != null)
-        {
-            _airplanePhysics = GetComponentInParent<AirplanePhysics>();
-        }
+        _airplanePhysics = GetComponentInParent<AirplanePhysics>();
+        //_airplanePhysics = ServiceLocator.Instance.Get<AirplanePhysics>();
+        //if (_airplanePhysics == null)
+        //{
+        //    Debug.LogError("FuturiftController: ServiceLocator does not contain a " + typeof(AirplanePhysics));
+        //}
     }
 
     private void Update()
