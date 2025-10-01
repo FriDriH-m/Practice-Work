@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ObjectPool : MonoBehaviour
+public class BulletObjectPool : MonoBehaviour
 {
     [SerializeField] private GameObject objectPool;
     [SerializeField] private Transform[] spawnPosition;
@@ -18,6 +18,11 @@ public class ObjectPool : MonoBehaviour
             pool.Enqueue(obj);
             obj.SetActive(false);
         }
+    }
+    private void Start()
+    {
+        //if (ServiceLocator.Instance == null) Debug.Log("нету блядь");
+        //ServiceLocator.Instance.Register<BulletObjectPool>(this);
     }
     public void RetunToPool(GameObject item)
     {

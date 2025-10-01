@@ -26,6 +26,11 @@ namespace Futurift
         private void Start()
         {
             _airplanePhysics = GetComponent<AirplanePhysics>();
+            //_airplanePhysics = ServiceLocator.Instance.Get<AirplanePhysics>();
+            //if (_airplanePhysics == null)
+            //{
+            //    Debug.LogError("FuturiftController: ServiceLocator does not contain a " + typeof(AirplanePhysics));
+            //}
         }
 
         private void FixedUpdate()

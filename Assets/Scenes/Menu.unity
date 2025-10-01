@@ -382,7 +382,23 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2314826318490984360, guid: 52f71d860e16ceb4eaf376fb6320b439, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4317532717827837108, guid: 52f71d860e16ceb4eaf376fb6320b439, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4486914637282661489, guid: 52f71d860e16ceb4eaf376fb6320b439, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4814054126982804665, guid: 52f71d860e16ceb4eaf376fb6320b439, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4826247498047502767, guid: 52f71d860e16ceb4eaf376fb6320b439, type: 3}
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
@@ -398,11 +414,19 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: 0.6
       objectReference: {fileID: 0}
+    - target: {fileID: 6901189289658123746, guid: 52f71d860e16ceb4eaf376fb6320b439, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7596263963436047074, guid: 52f71d860e16ceb4eaf376fb6320b439, type: 3}
       propertyPath: hand
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 7596263963436047074, guid: 52f71d860e16ceb4eaf376fb6320b439, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7698582104859688678, guid: 52f71d860e16ceb4eaf376fb6320b439, type: 3}
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
@@ -444,6 +468,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7839345409574465724, guid: 52f71d860e16ceb4eaf376fb6320b439, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8137172909857310348, guid: 52f71d860e16ceb4eaf376fb6320b439, type: 3}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents:
