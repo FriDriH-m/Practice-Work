@@ -41,7 +41,7 @@ public class ObjectPool : MonoBehaviour
                 newBullet = pool.Dequeue();
                 newBullet.transform.position = spawnPosition[i].position;
                 newBullet.SetActive(true);
-                newBullet.GetComponent<Rigidbody>().AddForce(transform.parent.forward * 3f, ForceMode.Impulse);
+                newBullet.GetComponent<Rigidbody>().AddForce(transform.parent.forward * 3f + new Vector3(0, 0.4f, 0), ForceMode.Impulse);
             }
         }
         else

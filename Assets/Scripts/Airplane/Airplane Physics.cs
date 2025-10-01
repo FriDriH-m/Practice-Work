@@ -46,6 +46,15 @@ public class AirplanePhysics : MonoBehaviour
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody>();
+        
+    }
+    private void OnEnable()
+    {
+        ServiceLocator.Instance.Register<AirplanePhysics>(this);
+    }
+    private void OnDisable()
+    {
+        ServiceLocator.Instance.Unregister<AirplanePhysics>(this);
     }
 
     private void OnDrawGizmos()
