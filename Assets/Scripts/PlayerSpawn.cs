@@ -6,6 +6,6 @@ public class PlayerSpawn : MonoBehaviour
 
     private void Start()
     {
-        transform.localPosition = new Vector3(0, _settingsData.PilotHeight, _settingsData.PilotWidth);
+        transform.localPosition = new Vector3(_settingsData.PilotX, _settingsData.PilotY, _settingsData.PilotZ);
     }
 }

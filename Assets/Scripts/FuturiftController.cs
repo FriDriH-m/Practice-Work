@@ -38,7 +38,7 @@ namespace Futurift
             var euler = _airplanePhysics.LocalAngularVelocity / Time.fixedDeltaTime;
 
             _controller.Pitch = (euler.x > 180 ? euler.x - 360 : euler.x) / 2;
-            _controller.Roll = (euler.z > 180 ? euler.z - 360 : euler.z) / 7;
+            _controller.Roll = -(euler.z > 180 ? euler.z - 360 : euler.z) / 7;
         }
 
         private void OnEnable()
