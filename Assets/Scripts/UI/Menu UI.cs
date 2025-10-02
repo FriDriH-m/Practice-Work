@@ -1,5 +1,4 @@
 using System.Collections;
-using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -12,8 +11,9 @@ public class MenuUI : MonoBehaviour
     [SerializeField] private GameObject _pilotLanding;
     [SerializeField] private GameObject _player;
     [SerializeField] private GameObject _planeModel;
-    [SerializeField] private Scrollbar _heightScrollbar;
-    [SerializeField] private Scrollbar _widthScrollbar;
+    [SerializeField] private Scrollbar _xScrollbar;
+    [SerializeField] private Scrollbar _yScrollbar;
+    [SerializeField] private Scrollbar _zScrollbar;
     [SerializeField] private SettingsData _settingsData;
     private Vector3 _playerStartPos;
 
@@ -44,15 +44,19 @@ public class MenuUI : MonoBehaviour
 
         _player.transform.SetParent(_planeModel.transform);
 
-        Vector3 targetPos = new Vector3(0, _settingsData.PilotHeight, _settingsData.PilotWidth);
+        Vector3 targetPos = new Vector3(0, _settingsData.PilotY, _settingsData.PilotZ);
         StartCoroutine(MovePlayerSmoothly(targetPos, 0.4f));
 
-        _widthScrollbar.value = _settingsData.PilotWidth ;
-        _heightScrollbar.value = Mathf.Abs(_settingsData.PilotHeight);
+        _xScrollbar.value = Mathf.InverseLerp(-0.3f, 0.3f, _settingsData.PilotX);
+        _yScrollbar.value = Mathf.InverseLerp(-1f, 0f, _settingsData.PilotY);
+        _zScrollbar.value = Mathf.InverseLerp(0.2f, 0.8f, _settingsData.PilotZ);
     }
     public void SavePilotLanding()
     {
-        _settingsData.SetPilotLanding(-_heightScrollbar.value, _widthScrollbar.value);
+        float x = Mathf.Lerp(-0.3f, 0.3f, _xScrollbar.value);
+        float y = Mathf.Lerp(-1f, 0f, _yScrollbar.value);
+        float z = Mathf.Lerp(0.2f, 0.8f, _zScrollbar.value);
+        _settingsData.SetPilotLanding(x, y, z);
 
         _startMenuLight.SetActive(true);
         _pilotLanding.SetActive(false);
@@ -63,7 +67,11 @@ public class MenuUI : MonoBehaviour
     }
     public void SetPilotPositionAccordingToScrollbars()
     {
-        _player.transform.localPosition = new Vector3(0, -_heightScrollbar.value, _widthScrollbar.value);
+        float x = Mathf.Lerp(-0.3f, 0.3f, _xScrollbar.value);
+        float y = Mathf.Lerp(-1f, 0f, _yScrollbar.value);
+        float z = Mathf.Lerp(0.2f, 0.8f, _zScrollbar.value);
+
+        _player.transform.localPosition = new Vector3(x, y, z);
     }
 
     private IEnumerator MovePlayerSmoothly(Vector3 target, float duration)

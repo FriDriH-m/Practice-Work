@@ -19,11 +19,6 @@ public class BulletObjectPool : MonoBehaviour
             obj.SetActive(false);
         }
     }
-    private void Start()
-    {
-        //if (ServiceLocator.Instance == null) Debug.Log("нету блядь");
-        //ServiceLocator.Instance.Register<BulletObjectPool>(this);
-    }
     public void RetunToPool(GameObject item)
     {
         item.SetActive(false);

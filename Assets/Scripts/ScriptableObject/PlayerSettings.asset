@@ -12,5 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7c894b1a76f0f048b3ff7f0aaa6a7cb, type: 3}
   m_Name: PlayerSettings
   m_EditorClassIdentifier: 
-  _pilotHeight: -0.6
-  _pilotWidth: 0.6
+  _pilotX: -0.00012508035
+  _pilotY: 0
+  _pilotZ: 0.8

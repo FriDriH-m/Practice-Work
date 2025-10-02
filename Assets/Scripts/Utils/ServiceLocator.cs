@@ -12,13 +12,11 @@ public class ServiceLocator : MonoBehaviour
     {
         if (Instance == null)
         {
-            Debug.LogWarning("нулл");
             Instance = this;
             DontDestroyOnLoad(gameObject);
         }
         else if (Instance != this)
         {
-            Debug.LogWarning("не нулл");
             Destroy(gameObject);
             return;
         }
