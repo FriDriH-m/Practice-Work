@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.XR.OpenXR.Input;
+using Utils;
 
 public class MenuInGame : MonoBehaviour
 {
@@ -10,20 +11,7 @@ public class MenuInGame : MonoBehaviour
     [SerializeField] private Vector2 zRange = new Vector2(50, 150);
     [SerializeField] private GameObject _menu;
     [SerializeField] private Transform _hand;
-    private XRInput _XRInput;
-    private void Awake()
-    {
-        _XRInput = new XRInput();
-        //_XRInput = ServiceLocator.Instance.Get<XRInput>();
-        //if (_XRInput == null)
-        //{
-        //    Debug.LogError("MenuInGame: ServiceLocator does not contain a " + typeof(XRInput));
-        //}
-    }
-    private void OnEnable()
-    {
-        _XRInput.Enable();
-    }
+
     public void BackToMenu()
     {
         SceneManager.LoadScene("Menu");

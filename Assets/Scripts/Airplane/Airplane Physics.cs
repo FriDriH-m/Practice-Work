@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit.Inputs.Readers;
+using Utils;
 
 public class AirplanePhysics : MonoBehaviour
 {
@@ -46,6 +47,7 @@ public class AirplanePhysics : MonoBehaviour
     {
         _rigidbody = GetComponent<Rigidbody>();
         
+        DIContainer.Instance.Register<AirplanePhysics>(this, "Player_Plane");
     }
     private void Start()
     {

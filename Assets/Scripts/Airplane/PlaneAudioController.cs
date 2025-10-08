@@ -1,13 +1,14 @@
 using UnityEngine;
+using Utils;
 
 public class PlaneAudioController : MonoBehaviour
 {
     private AudioSource _audioSource;
     private AirplanePhysics _airplanePhysics;
-    private void Awake()
+    private void Start()
     {
         _audioSource = GetComponent<AudioSource>();
-        _airplanePhysics = GetComponent<AirplanePhysics>();
+        _airplanePhysics = DIContainer.Instance.Get<AirplanePhysics>("Player_Plane");
     }
 
     private void Update()

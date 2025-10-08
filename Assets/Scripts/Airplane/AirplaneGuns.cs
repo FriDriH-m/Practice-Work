@@ -2,6 +2,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.XR;
+using Utils;
 
 public class AirplaneGuns : MonoBehaviour
 {
@@ -15,25 +16,18 @@ public class AirplaneGuns : MonoBehaviour
 
     private void Awake()
     {
-        //_XRInput = ServiceLocator.Instance.Get<XRInput>();
-        //_objectPool = ServiceLocator.Instance.Get<BulletObjectPool>();
-        _XRInput = new XRInput();
+        _XRInput = DIContainer.Instance.Get<XRInput>();
+
         _objectPool = GetComponent<BulletObjectPool>();
 
         _audioSource = GetComponent<AudioSource>();
         _audioSource.Stop();
     }
-    private void OnEnable()
-    {
-        _XRInput.Enable();
-    }
 
     private void Update()
     {
-        //if (_XRInput == null) Debug.Log("XRInput Нулл");
-        if (_XRInput.XRILeftInteraction.ActivateValue.ReadValue<float>() > 0.1f)
+        if (DIContainer.Instance.Get<XRInput>().XRILeftInteraction.ActivateValue.ReadValue<float>() > 0.1f)
         {
-            //if (_objectPool == null) Debug.Log("Нулл"); 
             _objectPool.GetFromPool();
             if (_audioSource.time >= 2f)
             {

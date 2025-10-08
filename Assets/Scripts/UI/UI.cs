@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using Utils;
 
 public class UI : MonoBehaviour
 {
@@ -9,12 +10,7 @@ public class UI : MonoBehaviour
 
     private void Start()
     {
-        _airplanePhysics = GetComponentInParent<AirplanePhysics>();
-        //_airplanePhysics = ServiceLocator.Instance.Get<AirplanePhysics>();
-        //if (_airplanePhysics == null)
-        //{
-        //    Debug.LogError("FuturiftController: ServiceLocator does not contain a " + typeof(AirplanePhysics));
-        //}
+        _airplanePhysics = DIContainer.Instance.Get<AirplanePhysics>("Player_Plane");
     }
 
     private void Update()
