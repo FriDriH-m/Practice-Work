@@ -49,7 +49,5 @@ public class FuturiftSimpleCompensator : MonoBehaviour
 
         Vector3 cubeLclPos = transform.parent.InverseTransformPoint(cube.position);
         transform.localPosition = new Vector3(cubeLclPos.x, transform.localPosition.y, cubeLclPos.z);
-
-        Debug.Log($"roll={roll} targetZ={targetZ} curZ={rotatingObject.localEulerAngles.z} newZ={newZ}");
     }
 }

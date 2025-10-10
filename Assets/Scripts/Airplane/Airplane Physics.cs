@@ -35,6 +35,7 @@ public class AirplanePhysics : MonoBehaviour
 
     public Vector3 LocalVelocity => _localVelocity;
     public Vector3 LocalAngularVelocity => _localAngularVelocity;
+    public Vector3 LocalGForce => _localGForce;
     public float Thrust => _thrust;
 
     //------For Gizmos visualization------
@@ -48,14 +49,6 @@ public class AirplanePhysics : MonoBehaviour
         _rigidbody = GetComponent<Rigidbody>();
         
         DIContainer.Instance.Register<AirplanePhysics>(this, "Player_Plane");
-    }
-    private void Start()
-    {
-        //ServiceLocator.Instance.Register<AirplanePhysics>(this);
-    }
-    private void OnDisable()
-    {
-        //ServiceLocator.Instance.Unregister<AirplanePhysics>(this);
     }
 
     //private void OnDrawGizmos()

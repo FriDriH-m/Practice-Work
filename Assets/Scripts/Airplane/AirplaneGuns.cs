@@ -14,7 +14,7 @@ public class AirplaneGuns : MonoBehaviour
     private BulletObjectPool _objectPool;
 
 
-    private void Awake()
+    private void Start()
     {
         _XRInput = DIContainer.Instance.Get<XRInput>();
 
@@ -26,7 +26,7 @@ public class AirplaneGuns : MonoBehaviour
 
     private void Update()
     {
-        if (DIContainer.Instance.Get<XRInput>().XRILeftInteraction.ActivateValue.ReadValue<float>() > 0.1f)
+        if (_XRInput.XRILeftInteraction.ActivateValue.ReadValue<float>() > 0.1f)
         {
             _objectPool.GetFromPool();
             if (_audioSource.time >= 2f)

@@ -6,8 +6,9 @@ namespace Utils
 {
     public class DIContainer
     {
-        private static readonly Lazy<DIContainer> _instance = new Lazy<DIContainer>(() => new DIContainer());
-        public static DIContainer Instance => _instance.Value;
+        private static DIContainer _instance;
+        public static DIContainer Instance => _instance ??= new DIContainer();
+
 
         private readonly Dictionary<(Type, string), object> services = new Dictionary<(Type, string), object>();
         private readonly Dictionary<Type, object> singletons = new Dictionary<Type, object>();
