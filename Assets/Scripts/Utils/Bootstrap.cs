@@ -13,4 +13,8 @@ public class Bootstrap : MonoBehaviour
 
         DIContainer.Instance.Register<XRInput>(xrInput, isSingleton: true);
     }
+    private void Update()
+    {
+        //DIContainer.Instance.Debugging();
+    }
 }

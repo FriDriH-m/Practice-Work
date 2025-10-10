@@ -6,8 +6,7 @@ namespace Utils
 {
     public class DIContainer
     {
-        private static DIContainer _instance;
-        public static DIContainer Instance => _instance ??= new DIContainer();
+        public readonly static DIContainer Instance = new DIContainer();
 
 
         private readonly Dictionary<(Type, string), object> services = new Dictionary<(Type, string), object>();
@@ -73,6 +72,21 @@ namespace Utils
         {
             singletons.Clear();
             services.Clear();
+        }
+        public void Debugging()
+        {
+            string a = "";
+            string b = "";
+            foreach (var key in singletons)
+            {
+                a += " " + key;
+            }
+            foreach (var key in services)
+            {
+                b += " " + key;
+            }
+            Debug.Log(a);
+            Debug.Log(b);
         }
     }
 }

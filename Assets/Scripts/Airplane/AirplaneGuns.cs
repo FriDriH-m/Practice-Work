@@ -11,14 +11,16 @@ public class AirplaneGuns : MonoBehaviour
     private XRInput _XRInput;
     private AudioSource _audioSource;
     private bool _isPlaying = false;
-    private BulletObjectPool _objectPool;
+    private GunsShootingSystem _gunShootingSystem;
 
-
+    private void Awake()
+    {
+        DIContainer.Instance.Register(this, isSingleton: true);
+    }
     private void Start()
     {
         _XRInput = DIContainer.Instance.Get<XRInput>();
-
-        _objectPool = GetComponent<BulletObjectPool>();
+        _gunShootingSystem = DIContainer.Instance.Get<GunsShootingSystem>("Player_Bullets");
 
         _audioSource = GetComponent<AudioSource>();
         _audioSource.Stop();
@@ -26,9 +28,19 @@ public class AirplaneGuns : MonoBehaviour
 
     private void Update()
     {
+        if (_gunShootingSystem.Ammo.Count == 0)
+        {
+            _gunShootingSystem.Reload();
+
+            if (!_isPlaying) return;
+            _audioSource.time = 2f;
+            _isPlaying = false;
+
+            return;
+        }
         if (_XRInput.XRILeftInteraction.ActivateValue.ReadValue<float>() > 0.1f)
         {
-            _objectPool.GetFromPool();
+            _gunShootingSystem.Shoot();
             if (_audioSource.time >= 2f)
             {
                 _audioSource.time = 0;
