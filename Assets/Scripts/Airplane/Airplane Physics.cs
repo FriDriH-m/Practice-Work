@@ -1,3 +1,4 @@
+using Bhaptics.SDK2;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit.Inputs.Readers;
 using Utils;
@@ -13,8 +14,9 @@ public class AirplanePhysics : MonoBehaviour
     [SerializeField] private AnimationCurve _liftCoefficient;
     [SerializeField] private AnimationCurve _rubberCoefficient;
     [SerializeField] private float _inducedDrag;
+    [SerializeField] private float _yawPower = 1f;
+    [SerializeField] private AnimationCurve _yawLimiter;
     [SerializeField] private AnimationCurve _sterringPower;
-    [SerializeField] XRInputValueReader<float> m_TriggerInput;
 
     [Header("Drag coefficients")]
     [SerializeField] private AnimationCurve _dragForward;
@@ -25,13 +27,18 @@ public class AirplanePhysics : MonoBehaviour
     [SerializeField] private AnimationCurve _dragRight;
 
     private Rigidbody _rigidbody;
+    private XRInput _xrInput;
+    private BhapticManager _bhapticManager;
 
+    private bool _isEngineOn;
+    private float _yawInput;
     private float _angleOfAttack;
     private float _angleOfAttackYaw;
     private Vector3 _localVelocity;
     private Vector3 _localAngularVelocity;
     private Vector3 _localGForce;
     private Vector3 _lastVelocity;
+    private Vector3 _yawVelocity;
 
     public Vector3 LocalVelocity => _localVelocity;
     public Vector3 LocalAngularVelocity => _localAngularVelocity;
@@ -50,58 +57,64 @@ public class AirplanePhysics : MonoBehaviour
         
         DIContainer.Instance.Register<AirplanePhysics>(this, "Player_Plane");
     }
+    private void Start()
+    {
+        _xrInput = DIContainer.Instance.Get<XRInput>();
+        _bhapticManager = DIContainer.Instance.Get<BhapticManager>();
 
-    //private void OnDrawGizmos()
-    //{
-    //    //Gizmos.color = Color.blue;
-    //    //Vector3 worldForward = transform.TransformDirection(Vector3.forward) * 15;
-    //    //Gizmos.DrawLine(transform.position, transform.position + worldForward);
+        _xrInput.XRIHead.YawInput.performed += ctx => _yawInput = ctx.ReadValue<float>();
+        _xrInput.XRIHead.YawInput.canceled += ctx => _yawInput = 0f;
+    }
 
-    //    //Gizmos.color = Color.green;
-    //    //Vector3 worldLocalVelocity = transform.TransformDirection(_localVelocity);
-    //    //Gizmos.DrawLine(transform.position, transform.position + worldLocalVelocity);
+    private void OnDrawGizmos()
+    {
+        //Gizmos.color = Color.blue;
+        //Vector3 worldForward = transform.TransformDirection(Vector3.forward) * 15;
+        //Gizmos.DrawLine(transform.position, transform.position + worldForward);
 
-    //    //Gizmos.color = Color.red;
-    //    //Vector3 worldLocalAngularVelocity = transform.TransformDirection(_localAngularVelocity);
-    //    //Gizmos.DrawLine(transform.position, transform.position + worldLocalAngularVelocity);
-    //    if (Application.isPlaying)
-    //    {
-    //        // Визуализация подъемной силы (зеленый)
-    //        Gizmos.color = Color.green;
-    //        Vector3 worldLift = transform.TransformDirection(_lastLift) * 0.01f;
-    //        Gizmos.DrawLine(transform.position, transform.position + worldLift);
-    //        Gizmos.DrawSphere(transform.position + worldLift, 0.1f);
+        //Gizmos.color = Color.green;
+        //Vector3 worldLocalVelocity = transform.TransformDirection(_localVelocity);
+        //Gizmos.DrawLine(transform.position, transform.position + worldLocalVelocity);
 
-    //        // Визуализация индуктивного сопротивления (желтый)
-    //        Gizmos.color = Color.yellow;
-    //        Vector3 worldInducedDrag = transform.TransformDirection(_lastInducedDrag) * 0.01f;
-    //        Gizmos.DrawLine(transform.position, transform.position + worldInducedDrag);
-    //        Gizmos.DrawSphere(transform.position + worldInducedDrag, 0.1f);
+        //Gizmos.color = Color.red;
+        //Vector3 worldLocalAngularVelocity = transform.TransformDirection(_localAngularVelocity);
+        //Gizmos.DrawLine(transform.position, transform.position + worldLocalAngularVelocity);
+        //if (Application.isPlaying)
+        //{
+        //    // Визуализация подъемной силы (зеленый)
+        //    Gizmos.color = Color.green;
+        //    Vector3 worldLift = transform.TransformDirection(_lastLift) * 0.01f;
+        //    Gizmos.DrawLine(transform.position, transform.position + worldLift);
+        //    Gizmos.DrawSphere(transform.position + worldLift, 0.1f);
 
-    //        // Визуализация сопротивления (красный)
-    //        Gizmos.color = Color.red;
-    //        Vector3 worldDrag = transform.TransformDirection(_lastDrag) * 0.01f;
-    //        Gizmos.DrawLine(transform.position, transform.position + worldDrag);
-    //        Gizmos.DrawSphere(transform.position + worldDrag, 0.1f);
+        //    // Визуализация индуктивного сопротивления (желтый)
+        //    Gizmos.color = Color.yellow;
+        //    Vector3 worldInducedDrag = transform.TransformDirection(_lastInducedDrag) * 0.01f;
+        //    Gizmos.DrawLine(transform.position, transform.position + worldInducedDrag);
+        //    Gizmos.DrawSphere(transform.position + worldInducedDrag, 0.1f);
 
-    //        Gizmos.color = Color.blue;
-    //        Vector3 worldRudder = transform.TransformDirection(_yawForce) * 0.01f;
-    //        Gizmos.DrawLine(transform.position, transform.position + worldRudder);
-    //        Gizmos.DrawSphere(transform.position + worldRudder, 0.1f);
+        //    // Визуализация сопротивления (красный)
+        //    Gizmos.color = Color.red;
+        //    Vector3 worldDrag = transform.TransformDirection(_lastDrag) * 0.01f;
+        //    Gizmos.DrawLine(transform.position, transform.position + worldDrag);
+        //    Gizmos.DrawSphere(transform.position + worldDrag, 0.1f);
 
-    //        // Подписи для сил
-    //        UnityEditor.Handles.Label(transform.position + worldLift, "Lift");
-    //        UnityEditor.Handles.Label(transform.position + worldInducedDrag, "Induced Drag");
-    //        UnityEditor.Handles.Label(transform.position + worldDrag, "Drag");
-    //        UnityEditor.Handles.Label(transform.position + worldRudder, "Rudder Force");
-    //    }
-    //}
+        //    Gizmos.color = Color.blue;
+        //    Vector3 worldRudder = transform.TransformDirection(_yawForce) * 0.01f;
+        //    Gizmos.DrawLine(transform.position, transform.position + worldRudder);
+        //    Gizmos.DrawSphere(transform.position + worldRudder, 0.1f);
+
+        //    // Подписи для сил
+        //    UnityEditor.Handles.Label(transform.position + worldLift, "Lift");
+        //    UnityEditor.Handles.Label(transform.position + worldInducedDrag, "Induced Drag");
+        //    UnityEditor.Handles.Label(transform.position + worldDrag, "Drag");
+        //    UnityEditor.Handles.Label(transform.position + worldRudder, "Rudder Force");
+        //}
+    }
 
     private void FixedUpdate()
     {
         float deltaTime = Time.fixedDeltaTime;
-        //_thrust = m_TriggerInput.ReadValue();
-        //Debug.Log(m_TriggerInput.ReadValue());
 
         UpdateCurrentState();
 
@@ -112,22 +125,31 @@ public class AirplanePhysics : MonoBehaviour
         UpdateLift();
         UpdateSteering(deltaTime);
 
+        _yawVelocity = new Vector3(0, _yawInput * (_yawPower * _yawLimiter.Evaluate(_localVelocity.magnitude * 3.6f)), 0);
+
         _rigidbody.AddRelativeForce(Vector3.forward * _thrust * _maxThrust); // Thrust (тяга)
+        _rigidbody.AddRelativeTorque(_yawVelocity, ForceMode.Force); // Yaw (рысканье)
         //Debug.Log(_angleOfAttackYaw + " | " + _localGForce.magnitude);
     }
 
     public void SetThrustAccordingLeverAngles(float angle)
     {        
-        if (angle == 0)
+        if (angle <= 0.1f)
         {
+            if (_isEngineOn) _bhapticManager.RequestStartEvent(BhapticsEvent.ENGINESTOP);
+                
+            _isEngineOn = false;
             _thrust = 0;
             return;
         }
         if (angle >= 60f)
         {
             _thrust = 1f;
+            _isEngineOn = true;
             return;
         }
+        _isEngineOn = true;
+        _bhapticManager.RequestStartEvent(BhapticsEvent.ENGINESTART);
         _thrust = angle / 60;
     }
 

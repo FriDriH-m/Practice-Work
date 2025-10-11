@@ -1,3 +1,4 @@
+using Bhaptics.SDK2;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -8,6 +9,7 @@ public class AirplaneGuns : MonoBehaviour
 {
     [SerializeField] private Rigidbody body;
     [SerializeField] private InputActionReference _controllerTrigger;
+    private BhapticManager _bhapticManager;
     private XRInput _XRInput;
     private AudioSource _audioSource;
     private bool _isPlaying = false;
@@ -21,6 +23,7 @@ public class AirplaneGuns : MonoBehaviour
     {
         _XRInput = DIContainer.Instance.Get<XRInput>();
         _gunShootingSystem = DIContainer.Instance.Get<GunsShootingSystem>("Player_Bullets");
+        _bhapticManager = DIContainer.Instance.Get<BhapticManager>();
 
         _audioSource = GetComponent<AudioSource>();
         _audioSource.Stop();
@@ -28,6 +31,7 @@ public class AirplaneGuns : MonoBehaviour
 
     private void Update()
     {
+        
         if (_gunShootingSystem.Ammo.Count == 0)
         {
             _gunShootingSystem.Reload();
@@ -41,6 +45,9 @@ public class AirplaneGuns : MonoBehaviour
         if (_XRInput.XRILeftInteraction.ActivateValue.ReadValue<float>() > 0.1f)
         {
             _gunShootingSystem.Shoot();
+
+            _bhapticManager.RequestStartEvent(BhapticsEvent.PLANEFIRELEFTHAND);
+
             if (_audioSource.time >= 2f)
             {
                 _audioSource.time = 0;
@@ -56,5 +63,5 @@ public class AirplaneGuns : MonoBehaviour
             _audioSource.time = 2f;
             _isPlaying = false;
         }
-    }
+    }    
 }

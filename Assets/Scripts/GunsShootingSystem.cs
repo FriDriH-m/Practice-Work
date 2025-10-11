@@ -36,7 +36,14 @@ public class GunsShootingSystem : MonoBehaviour
         if (_reloadTimer <= 0)
         {
             foreach (var ammo in _shootedAmmo)
-            {                
+            {
+                var rb = ammo.GetComponent<Rigidbody>();
+                if (rb != null)
+                {
+                    rb.linearVelocity = Vector3.zero;
+                    rb.angularVelocity = Vector3.zero;
+                }
+                ammo.SetActive(false);
                 _ammo.Enqueue(ammo);
             }
             _shootedAmmo.Clear();
@@ -62,7 +69,7 @@ public class GunsShootingSystem : MonoBehaviour
                 _shootedAmmo.Enqueue(newBullet);
                 newBullet.transform.position = _gunsPositions[i].position;
                 newBullet.SetActive(true);
-                newBullet.GetComponent<Rigidbody>().AddForce(transform.parent.forward * 3f + new Vector3(0, 0.3f, 0), ForceMode.Impulse);
+                newBullet.GetComponent<Rigidbody>().AddForce(transform.parent.forward * 3f + new Vector3(0, 0.4f, 0), ForceMode.Impulse);
             }
         }
         yield return new WaitForSeconds(_shootingSpeed);
