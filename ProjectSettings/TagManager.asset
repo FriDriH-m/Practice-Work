@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Plane
   - Bullet
+  - LeftHand
+  - RightHand
   layers:
   - Default
   - TransparentFX

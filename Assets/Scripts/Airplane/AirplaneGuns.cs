@@ -1,4 +1,5 @@
 using Bhaptics.SDK2;
+using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -14,6 +15,11 @@ public class AirplaneGuns : MonoBehaviour
     private AudioSource _audioSource;
     private bool _isPlaying = false;
     private GunsShootingSystem _gunShootingSystem;
+    private readonly Dictionary<string, string> handEvent = new Dictionary<string, string>()
+    {
+        { "LeftHand", BhapticsEvent.PLANEFIRELEFTHAND },
+        { "RightHand", BhapticsEvent.PLANEFIRERIGHTHAND }
+    };
 
     private void Awake()
     {
@@ -27,41 +33,63 @@ public class AirplaneGuns : MonoBehaviour
 
         _audioSource = GetComponent<AudioSource>();
         _audioSource.Stop();
-    }
+    }    
 
     private void Update()
     {
-        
         if (_gunShootingSystem.Ammo.Count == 0)
         {
-            _gunShootingSystem.Reload();
-
-            if (!_isPlaying) return;
-            _audioSource.time = 2f;
-            _isPlaying = false;
-
+            ReloadGuns();
             return;
         }
-        if (_XRInput.XRILeftInteraction.ActivateValue.ReadValue<float>() > 0.1f)
+        var activeHand = DIContainer.Instance.Get<YokeRotator>("Plane_Yoke").ActiveHand;
+        if (activeHand == null) return;
+        if (GetTriggerValue(activeHand.tag) >= 0.1f)
         {
             _gunShootingSystem.Shoot();
 
-            _bhapticManager.RequestStartEvent(BhapticsEvent.PLANEFIRELEFTHAND);
+            _bhapticManager.RequestStartEvent(handEvent[activeHand.tag]);
 
-            if (_audioSource.time >= 2f)
-            {
-                _audioSource.time = 0;
-            }
-            if (_isPlaying) return;
-            _audioSource.Play();
-            _audioSource.time = 0.2f;
-            _isPlaying = true;
+            PlayAudio();
         }
         else
         {
-            if (!_isPlaying) return;
-            _audioSource.time = 2f;
-            _isPlaying = false;
+            StopAudio();
         }
-    }    
+    }
+    private float GetTriggerValue(string hand)
+    {
+        return hand switch
+        {
+            "LeftHand" => _XRInput.XRILeftInteraction.ActivateValue.ReadValue<float>(),
+            "RightHand" => _XRInput.XRIRightInteraction.ActivateValue.ReadValue<float>(),
+            _ => 0f,
+        };
+    }
+    private void ReloadGuns()
+    {
+        _gunShootingSystem.Reload();
+
+        if (!_isPlaying) return;
+        _audioSource.time = 2f;
+        _isPlaying = false;
+        StopAudio();
+    }
+    private void StopAudio()
+    {
+        if (!_isPlaying) return;
+        _audioSource.time = 2f;
+        _isPlaying = false;
+    }
+    private void PlayAudio()
+    {
+        if (_audioSource.time >= 2f)
+        {
+            _audioSource.time = 0;
+        }
+        if (_isPlaying) return;
+        _audioSource.Play();
+        _audioSource.time = 0.2f;
+        _isPlaying = true;
+    }
 }

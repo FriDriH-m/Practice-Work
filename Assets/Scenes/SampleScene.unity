@@ -3567,27 +3567,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 3964588121054550112}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &915854269758964125
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1751094201417542924}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 0.16991879, y: 0.058481403, z: 0.010180153}
-  m_Center: {x: 0.007851401, y: 0.011189456, z: 0.002566182}
 --- !u!23 &936564786998984662
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -4904,7 +4883,6 @@ GameObject:
   - component: {fileID: 3891321318686357364}
   - component: {fileID: 5212869805888383953}
   - component: {fileID: 8263813269336612726}
-  - component: {fileID: 915854269758964125}
   m_Layer: 0
   m_Name: Cube.003
   m_TagString: Plane
@@ -8759,10 +8737,10 @@ Transform:
   m_Children:
   - {fileID: 639896721}
   - {fileID: 3964588121054550112}
+  - {fileID: 7354813509242114011}
   - {fileID: 8030217758357288187}
   - {fileID: 6214227321228371691}
   - {fileID: 5670147016190259131}
-  - {fileID: 7354813509242114011}
   - {fileID: 4756392338858444123}
   - {fileID: 2640624489529557568}
   - {fileID: 340261448181292394}
@@ -11622,6 +11600,8 @@ GameObject:
   - component: {fileID: 5341058654989765501}
   - component: {fileID: 996397701378239214}
   - component: {fileID: 8605146819064029268}
+  - component: {fileID: 9083945841539614123}
+  - component: {fileID: 9083945841539614122}
   m_Layer: 0
   m_Name: Airplane P-40
   m_TagString: Plane
@@ -13956,6 +13936,10 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1763277165867629938, guid: f6336ac4ac8b4d34bc5072418cdc62a0, type: 3}
+      propertyPath: m_TagString
+      value: LeftHand
+      objectReference: {fileID: 0}
     - target: {fileID: 6232745470614056083, guid: f6336ac4ac8b4d34bc5072418cdc62a0, type: 3}
       propertyPath: m_TrackingType
       value: 0
@@ -13971,6 +13955,10 @@ PrefabInstance:
     - target: {fileID: 6232745470614056090, guid: f6336ac4ac8b4d34bc5072418cdc62a0, type: 3}
       propertyPath: m_Center.y
       value: 1.16
+      objectReference: {fileID: 0}
+    - target: {fileID: 8748500131873809389, guid: f6336ac4ac8b4d34bc5072418cdc62a0, type: 3}
+      propertyPath: m_TagString
+      value: RightHand
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -14999,6 +14987,48 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!65 &9083945841539614122
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7133133728198946134}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1.2413583, z: 4.5903316}
+  m_Center: {x: 0, y: 0.120679595, z: -2.7682028}
+--- !u!65 &9083945841539614123
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7133133728198946134}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 16.881767, y: 1, z: 3.9335637}
+  m_Center: {x: 0.05136013, y: -0.00000023808397, z: 1.8703742}
 --- !u!23 &9085681212576345933
 MeshRenderer:
   m_ObjectHideFlags: 0

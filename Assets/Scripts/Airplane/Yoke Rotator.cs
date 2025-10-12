@@ -1,11 +1,23 @@
 ﻿using UnityEngine;
+using Utils;
+using Bhaptics.SDK2;
 
 
-public class YokeLookAtHand : MonoBehaviour, IHandRotator
+public class YokeRotator : MonoBehaviour, IHandRotator
 {
     [SerializeField] private Transform yoke;
     [SerializeField] private Vector3 forwardOffsetEuler = Vector3.zero;
     private Transform hand;
+    private BhapticManager _bhapticManager;
+    public Transform ActiveHand => hand;
+    private void Awake()
+    {
+        DIContainer.Instance.Register<YokeRotator>(this, "Plane_Yoke");
+    }
+    private void Start()
+    {
+        _bhapticManager = DIContainer.Instance.Get<BhapticManager>();
+    }
     public void SetHand(Transform hand)
     {
         this.hand = hand;
@@ -27,6 +39,22 @@ public class YokeLookAtHand : MonoBehaviour, IHandRotator
         float targetZ = Mathf.Clamp(z, -10f, 10f);
 
         transform.localEulerAngles = new Vector3(targetX, y, targetZ);
+
+        var _motorsPowerX = (int)(100 * Mathf.InverseLerp(-10, 10, targetX));
+        var _motorsPowerZ = (int)(100 * Mathf.InverseLerp(-10, 10, targetZ));
+        var _finalPower = Mathf.Max(_motorsPowerX, _motorsPowerZ);
+
+        switch (hand.tag) 
+        {
+            case ("LeftHand"):
+                _bhapticManager.ActiveMotor(PositionType.GloveL, 100, new int[] { _finalPower, _finalPower, _finalPower, _finalPower, _finalPower, _finalPower });
+                break;
+            case ("RightHand"):
+                _bhapticManager.ActiveMotor(PositionType.GloveR, 100, new int[] { _finalPower, _finalPower, _finalPower, _finalPower, _finalPower, _finalPower });
+                break;
+            default:
+                break;
+        }
     }
     void LateUpdate()
     {

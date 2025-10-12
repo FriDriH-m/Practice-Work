@@ -7,6 +7,10 @@ public class LeverRotator : MonoBehaviour, IHandRotator
     [SerializeField] private Vector3 forwardOffsetEuler = Vector3.zero;
     private Transform _hand = null;
     private AirplanePhysics _airplanePhysics;
+
+    public Transform ActiveHand => _hand;
+
+    
     private void Start()
     {
         _airplanePhysics = DIContainer.Instance.Get<AirplanePhysics>("Player_Plane");

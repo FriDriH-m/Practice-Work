@@ -50,6 +50,7 @@ public class UI : MonoBehaviour
         _speed.text = "Speed: " + _planeSpeed;
         _gForce.text = "G-force: " + gForce;
         _height.text = "Height: " + (int)transform.parent.position.y;
+
         if (_gunShootingSystem.IsReloading)
         {
             _ammo.color = Color.red;
@@ -60,6 +61,7 @@ public class UI : MonoBehaviour
             _ammo.color = Color.white;
             _ammo.text = "Ammo: " + _gunShootingSystem.Ammo.Count;
         }
+
         _tops.text = "tops: 3/" + _matchManager.AffectedTops;
         _targets.text = "targets: 3/" + _matchManager.AffectedTargets;
     }
