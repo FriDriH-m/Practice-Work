@@ -1,3 +1,4 @@
+using System.Collections;
 using TMPro;
 using UnityEditor.Rendering.Universal;
 using UnityEngine;
@@ -9,15 +10,22 @@ public class UI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _gForce;
     [SerializeField] private TextMeshProUGUI _height;
     [SerializeField] private TextMeshProUGUI _ammo;
+    [SerializeField] private TextMeshProUGUI _tops;
+    [SerializeField] private TextMeshProUGUI _targets;
+    [SerializeField] private GameObject _winnerUI;
     private AirplanePhysics _airplanePhysics;
     private GunsShootingSystem _gunShootingSystem;
+    private MatchManager _matchManager;
     private float _planeSpeed;
     private float _timer;
 
     private void Start()
     {
+        _winnerUI.SetActive(false);
         _airplanePhysics = DIContainer.Instance.Get<AirplanePhysics>("Player_Plane");
         _gunShootingSystem = DIContainer.Instance.Get<GunsShootingSystem>("Player_Bullets");
+        _matchManager = DIContainer.Instance.Get<MatchManager>();
+        _matchManager.PlayerWon += ActiveWinnerUI;
     }
 
     private void Update()
@@ -51,9 +59,21 @@ public class UI : MonoBehaviour
         {
             _ammo.color = Color.white;
             _ammo.text = "Ammo: " + _gunShootingSystem.Ammo.Count;
-        }            
+        }
+        _tops.text = "tops: 3/" + _matchManager.AffectedTops;
+        _targets.text = "targets: 3/" + _matchManager.AffectedTargets;
     }
+    public void ActiveWinnerUI()
+    {
+        _winnerUI.SetActive(true);
+        StartCoroutine(WinnerUILifeTime());
+    }
+    private IEnumerator WinnerUILifeTime()
+    {
+        yield return new WaitForSeconds(3);
 
+        _winnerUI.SetActive(false);
+    }
     public void SetPlaneSpeed(float speed)
     {
         _planeSpeed = speed;

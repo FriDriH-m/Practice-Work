@@ -5,16 +5,15 @@ using Utils;
 
 public class Bootstrap : MonoBehaviour
 {
+    private BhapticManager _bhapticManager;
     private void Awake()
     {
         var xrInput = new XRInput();
         xrInput.Enable();
+        _bhapticManager = new BhapticManager();
 
-        var bhapticManager = new BhapticManager();
-        bhapticManager.Initialize();
-
-        DIContainer.Instance.Register<BhapticManager>(bhapticManager, isSingleton: true);
-
+        DIContainer.Instance.Register<BhapticManager>(_bhapticManager, isSingleton: true);
+        DIContainer.Instance.Register<MatchManager>(new MatchManager(), isSingleton: true);
         //var asset = xrInput.asset;
         //foreach (var map in asset.actionMaps)
         //{
@@ -28,6 +27,10 @@ public class Bootstrap : MonoBehaviour
         //}
 
         DIContainer.Instance.Register<XRInput>(xrInput, isSingleton: true);
+    }
+    private void Start()
+    {        
+        _bhapticManager.Initialize();
     }
     private void Update()
     {        
