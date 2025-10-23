@@ -13,7 +13,6 @@ namespace Utils
         private readonly HashSet<string> _playingEvents = new HashSet<string>();
         public void Initialize()
         {
-
             _eventsDuration.Add(BhapticsEvent.AIRPLANETAKEOFF, 1);
             _eventsDuration.Add(BhapticsEvent.GETDAMAGE, 0.5f);
             _eventsDuration.Add(BhapticsEvent.PLANECRASH, 1.5f);
@@ -44,18 +43,18 @@ namespace Utils
         }
         public void ActiveMotor(PositionType type, int millis, int[] array)
         {
-            foreach (KeyValuePair<int, float> pair in _activeMotors)
-            {
-                if (pair.Value <= 0)
-                {
-                    _activeMotors.Remove(pair.Key);
-                } 
-                _activeMotors[pair.Key] -= Time.deltaTime * 1000; 
-            }
-            if (_playingEvents.Count > 0 && _activeMotors.ContainsKey((int)type)) return;
+            //foreach (KeyValuePair<int, float> pair in _activeMotors)
+            //{
+            //    if (pair.Value <= 0)
+            //    {
+            //        _activeMotors.Remove(pair.Key);
+            //    } 
+            //    _activeMotors[pair.Key] -= Time.deltaTime * 1000; 
+            //}
+            if (_playingEvents.Count > 0) return;
 
             BhapticsLibrary.PlayMotors((int)type, motors: array, durationMillis: millis);
-            _activeMotors.Add((int)type, millis);
+            //_activeMotors.Add((int)type, millis);
         }
         public void Debugging()
         {

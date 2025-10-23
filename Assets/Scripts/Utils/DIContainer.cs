@@ -13,7 +13,7 @@ namespace Utils
         private readonly Dictionary<Type, object> singletons = new Dictionary<Type, object>();
         private DIContainer() { }
         
-        public void Register<T>(T service, string name = "", bool isSingleton = false) where T : class
+        public void Register<T>(T service, string name = "", bool isSingleton = false, bool IsSingletone = false) where T : class
         {
             if (service == null)
             {

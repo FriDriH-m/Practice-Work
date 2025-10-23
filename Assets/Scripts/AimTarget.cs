@@ -16,6 +16,7 @@ public class AimTarget : MonoBehaviour
         {
             _matchManager.IncreaseAffectedTargets();
             _isAffected = true;
+            gameObject.SetActive(false);
         }
     }
 }

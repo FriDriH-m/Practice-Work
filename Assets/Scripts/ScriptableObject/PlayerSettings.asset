@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: PlayerSettings
   m_EditorClassIdentifier: 
   _pilotX: 0
-  _pilotY: 0
+  _pilotY: -0.5
   _pilotZ: 0.8

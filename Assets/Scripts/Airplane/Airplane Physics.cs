@@ -39,6 +39,7 @@ public class AirplanePhysics : MonoBehaviour
     private Vector3 _localGForce;
     private Vector3 _lastVelocity;
     private Vector3 _yawVelocity;
+    private Vector3 _sterringInput;
 
     public Vector3 LocalVelocity => _localVelocity;
     public Vector3 LocalAngularVelocity => _localAngularVelocity;
@@ -55,7 +56,6 @@ public class AirplanePhysics : MonoBehaviour
     {
         _rigidbody = GetComponent<Rigidbody>();
         
-        DIContainer.Instance.Register<AirplanePhysics>(this, "Player_Plane");
     }
     private void Start()
     {
@@ -123,7 +123,7 @@ public class AirplanePhysics : MonoBehaviour
         CalculateGForce(deltaTime);
 
         UpdateLift();
-        UpdateSteering(deltaTime);
+        UpdateSteering(deltaTime, _sterringInput);
 
         _yawVelocity = new Vector3(0, _yawInput * (_yawPower * _yawLimiter.Evaluate(_localVelocity.magnitude * 3.6f)), 0);
 
@@ -132,7 +132,12 @@ public class AirplanePhysics : MonoBehaviour
         //Debug.Log(_angleOfAttackYaw + " | " + _localGForce.magnitude);
     }
 
-    public void SetThrustAccordingLeverAngles(float angle)
+    public void SetSteeringInput(Vector3 newInpit)
+    {
+        _sterringInput = newInpit;
+    }
+
+    public void SetThrust(float angle)
     {        
         if (angle <= 0.1f)
         {
@@ -166,7 +171,7 @@ public class AirplanePhysics : MonoBehaviour
         if (_localVelocity.sqrMagnitude < 1f) return;
 
         Vector3 lift = CalculateLift(_angleOfAttack, Vector3.right, _liftCoefficient, _liftPower);
-        Vector3 yawForce = CalculateLift2(_angleOfAttackYaw, Vector3.up, _rubberCoefficient, _rudderPower);
+        Vector3 yawForce = CalculateLift(_angleOfAttackYaw, Vector3.up, _rubberCoefficient, _rudderPower);
 
         _lastLift = lift;
         _yawForce = yawForce;
@@ -175,14 +180,17 @@ public class AirplanePhysics : MonoBehaviour
         _rigidbody.AddRelativeForce(yawForce);
     }
 
-    private void UpdateSteering(float deltaTime)
+    private void UpdateSteering(float deltaTime, Vector3 input)
     {
-        Vector3 euler = _yoke.localEulerAngles;
+        Vector3 euler = input;
 
         float signedX = (euler.x > 180f) ? euler.x - 360f : euler.x;  
         float signedZ = (euler.z > 180f) ? euler.z - 360f : euler.z; 
+        
+        if (signedX <= 1f && signedX >= -1f) signedX = 0f;
+        if (signedZ <= 1f && signedZ >= -1f) signedZ = 0f;
 
-        Vector3 targetTorque = new Vector3(signedZ/ 1200, 0, -signedX/ 400);
+        Vector3 targetTorque = new Vector3(signedZ/ 1200, 0, -signedX/ 100);
 
         _rigidbody.AddRelativeTorque(targetTorque * _sterringPower.Evaluate(_localVelocity.magnitude * 3.6f), ForceMode.VelocityChange);
     }
@@ -206,10 +214,6 @@ public class AirplanePhysics : MonoBehaviour
         _angleOfAttack = Mathf.Atan2(-_localVelocity.y, _localVelocity.z) * Mathf.Rad2Deg;
         // для Yaw (рысканья) нужно взять ось вперед (z) и ось вдоль крыльев (x)
         _angleOfAttackYaw = Mathf.Atan2(_localVelocity.x, _localVelocity.z) * Mathf.Rad2Deg; 
-
-        //Debug.Log(_angleOfAttack);
-        //Debug.Log(_angleOfAttackYaw);
-        //Debug.Log(_localGForce.magnitude);
     }
     private void CalculateGForce(float deltaTime)
     {
@@ -253,28 +257,6 @@ public class AirplanePhysics : MonoBehaviour
         
         float inducedDragForce = liftCoeficient * liftCoeficient * _inducedDrag;
         //Debug.Log("Induced Drag of lift:" + inducedDragForce);
-        Vector3 inducedDragDirection = -liftVelocity.normalized;
-        Vector3 inducedDrag = inducedDragDirection * inducedDragForce;
-
-        _lastInducedDrag = inducedDrag;
-
-        return lift + inducedDrag;
-    }
-    private Vector3 CalculateLift2(float angleOfAttack, Vector3 rightAxis, AnimationCurve ribberAOACurve, float liftPower)
-    {
-        var liftVelocity = Vector3.ProjectOnPlane(_localVelocity, rightAxis);
-        Vector3 lclVelocity = _localVelocity;
-        float lclVelocity2 = lclVelocity.sqrMagnitude;
-
-        float liftCoeficient = ribberAOACurve.Evaluate(angleOfAttack);
-        float liftForce = 0.5f * lclVelocity2 * liftCoeficient * liftPower;
-
-        Vector3 liftDirection = Vector3.Cross(liftVelocity.normalized, rightAxis);
-        Vector3 lift = liftDirection * liftForce;
-
-
-        float inducedDragForce = liftCoeficient * liftCoeficient * _inducedDrag;
-        //Debug.Log("Induced Drag of yawForce:" + inducedDragForce);
         Vector3 inducedDragDirection = -liftVelocity.normalized;
         Vector3 inducedDrag = inducedDragDirection * inducedDragForce;
 

@@ -33,6 +33,6 @@ public class LeverRotator : MonoBehaviour, IHandRotator
 
         transform.localEulerAngles = new Vector3(x, 0, 0);
 
-        _airplanePhysics.SetThrustAccordingLeverAngles(x);
+        _airplanePhysics.SetThrust(x);
     }
 }

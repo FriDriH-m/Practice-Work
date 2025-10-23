@@ -1,8 +1,14 @@
 using System.Collections;
 using TMPro;
-using UnityEditor.Rendering.Universal;
 using UnityEngine;
 using Utils;
+
+public static class A
+{
+    public static void B(this int c)
+    {
+    }
+}
 
 public class UI : MonoBehaviour
 {
@@ -20,7 +26,7 @@ public class UI : MonoBehaviour
     private float _timer;
 
     private void Start()
-    {
+    {        
         _winnerUI.SetActive(false);
         _airplanePhysics = DIContainer.Instance.Get<AirplanePhysics>("Player_Plane");
         _gunShootingSystem = DIContainer.Instance.Get<GunsShootingSystem>("Player_Bullets");

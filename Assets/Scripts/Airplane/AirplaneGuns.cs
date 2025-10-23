@@ -8,8 +8,6 @@ using Utils;
 
 public class AirplaneGuns : MonoBehaviour
 {
-    [SerializeField] private Rigidbody body;
-    [SerializeField] private InputActionReference _controllerTrigger;
     private BhapticManager _bhapticManager;
     private XRInput _XRInput;
     private AudioSource _audioSource;
@@ -23,16 +21,20 @@ public class AirplaneGuns : MonoBehaviour
 
     private void Awake()
     {
+        _gunShootingSystem = GetComponent<GunsShootingSystem>();
+        
+        DIContainer.Instance.Register(_gunShootingSystem, "Player_Bullets");
         DIContainer.Instance.Register(this, isSingleton: true);
     }
     private void Start()
     {
         _XRInput = DIContainer.Instance.Get<XRInput>();
-        _gunShootingSystem = DIContainer.Instance.Get<GunsShootingSystem>("Player_Bullets");
+        
         _bhapticManager = DIContainer.Instance.Get<BhapticManager>();
 
-        _audioSource = GetComponent<AudioSource>();
+        _audioSource = GetComponent<AudioSource>();        
         _audioSource.Stop();
+        _gunShootingSystem.Init(DIContainer.Instance.Get<AirplanePhysics>("Player_Plane"));
     }    
 
     private void Update()

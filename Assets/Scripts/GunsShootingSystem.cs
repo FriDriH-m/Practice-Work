@@ -9,11 +9,14 @@ public class GunsShootingSystem : MonoBehaviour
     [SerializeField] private Transform[] _gunsPositions;
     [SerializeField] private float _shootingSpeed = 1f;
     [SerializeField] private float _reloadSpeed = 15f;
+    [SerializeField] private int _bulletSpeed = 300;
+    [SerializeField] private bool isPlayer = true;
     private float _reloadTimer;
     private bool _isReloading = false;
     private Queue<GameObject> _ammo = new Queue<GameObject>();
     private Queue<GameObject> _shootedAmmo = new Queue<GameObject>();
     private Coroutine _shootCoroutine;
+    private AirplanePhysics _airplanePhysics;
     public Queue<GameObject> Ammo => _ammo;
     public float ReloadTimer => _reloadTimer;
     public bool IsReloading => _isReloading;
@@ -27,7 +30,14 @@ public class GunsShootingSystem : MonoBehaviour
             _ammo.Enqueue(obj);
             obj.SetActive(false);
         }
-        DIContainer.Instance.Register<GunsShootingSystem>(this, "Player_Bullets");
+    }
+    public void Init(AirplanePhysics airplanePhysics)
+    {
+        _airplanePhysics = airplanePhysics;
+        if (_airplanePhysics == null)
+        {
+            Debug.LogError("[GunsShootingSystem] AirplanePhysics не найден на объекте.");
+        }
     }
     public void Reload()
     {
@@ -67,9 +77,14 @@ public class GunsShootingSystem : MonoBehaviour
             {
                 newBullet = _ammo.Dequeue();
                 _shootedAmmo.Enqueue(newBullet);
+
                 newBullet.transform.position = _gunsPositions[i].position;
                 newBullet.SetActive(true);
-                newBullet.GetComponent<Rigidbody>().AddForce(transform.parent.forward * 3f + new Vector3(0, 0.4f, 0), ForceMode.Impulse);
+
+                Rigidbody rigidbody = newBullet.GetComponent<Rigidbody>();
+
+                rigidbody.linearVelocity = _airplanePhysics.GetComponent<Rigidbody>().GetPointVelocity(_gunsPositions[i].position) + _gunsPositions[i].forward * _bulletSpeed;
+                rigidbody.angularVelocity = Vector3.zero;   
             }
         }
         yield return new WaitForSeconds(_shootingSpeed);

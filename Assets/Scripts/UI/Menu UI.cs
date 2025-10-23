@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using Utils;
 
 public class MenuUI : MonoBehaviour
 {
@@ -26,6 +27,11 @@ public class MenuUI : MonoBehaviour
     {
         SceneManager.LoadScene("SampleScene");
         SceneManager.UnloadSceneAsync("Menu");
+        DIContainer.Instance.Get<AudioManager>().Stop();
+    }
+    public void Exit()
+    {
+        Application.Quit();
     }
     public void OpenSettings()
     {
@@ -44,8 +50,8 @@ public class MenuUI : MonoBehaviour
 
         _player.transform.SetParent(_planeModel.transform);
 
-        Vector3 targetPos = new Vector3(0, _settingsData.PilotY, _settingsData.PilotZ);
-        StartCoroutine(MovePlayerSmoothly(targetPos, 0.4f));
+        Vector3 targetPos = new Vector3(-0.04f, _settingsData.PilotY, 0.5f);
+        _player.transform.localPosition = targetPos;
 
         _xScrollbar.value = Mathf.InverseLerp(-0.3f, 0.3f, _settingsData.PilotX);
         _yScrollbar.value = Mathf.InverseLerp(-1f, 0f, _settingsData.PilotY);
@@ -53,10 +59,10 @@ public class MenuUI : MonoBehaviour
     }
     public void SavePilotLanding()
     {
-        float x = Mathf.Lerp(-0.3f, 0.3f, _xScrollbar.value);
+        //float x = Mathf.Lerp(-0.3f, 0.3f, _xScrollbar.value);
         float y = Mathf.Lerp(-1f, 0f, _yScrollbar.value);
-        float z = Mathf.Lerp(0.2f, 0.8f, _zScrollbar.value);
-        _settingsData.SetPilotLanding(x, y, z);
+        //float z = Mathf.Lerp(0.2f, 0.8f, _zScrollbar.value);
+        _settingsData.SetPilotLanding(transform.localPosition.x, y, transform.localPosition.z);
 
         _startMenuLight.SetActive(true);
         _pilotLanding.SetActive(false);
@@ -67,28 +73,28 @@ public class MenuUI : MonoBehaviour
     }
     public void SetPilotPositionAccordingToScrollbars()
     {
-        float x = Mathf.Lerp(-0.3f, 0.3f, _xScrollbar.value);
+        //float x = Mathf.Lerp(-0.3f, 0.3f, _xScrollbar.value);
         float y = Mathf.Lerp(-1f, 0f, _yScrollbar.value);
-        float z = Mathf.Lerp(0.2f, 0.8f, _zScrollbar.value);
+        //float z = Mathf.Lerp(0.2f, 0.8f, _zScrollbar.value);
 
-        _player.transform.localPosition = new Vector3(x, y, z);
+        _player.transform.localPosition = new Vector3(_player.transform.localPosition.x, y, _player.transform.localPosition.z);
     }
 
-    private IEnumerator MovePlayerSmoothly(Vector3 target, float duration)
-    {
-        Vector3 start = _player.transform.localPosition;
-        float elapsed = 0f;
+    //private IEnumerator MovePlayerSmoothly(Vector3 target, float duration)
+    //{
+    //    Vector3 start = _player.transform.localPosition;
+    //    float elapsed = 0f;
 
-        while (elapsed < duration)
-        {
-            elapsed += Time.deltaTime;
-            float t = elapsed / duration;
+    //    while (elapsed < duration)
+    //    {
+    //        elapsed += Time.deltaTime;
+    //        float t = elapsed / duration;
 
-            _player.transform.localPosition = Vector3.Lerp(start, target, t);
+    //        _player.transform.localPosition = Vector3.Lerp(start, target, t);
 
-            yield return null; 
-        }
+    //        yield return null; 
+    //    }
 
-        _player.transform.localPosition = target; 
-    }
+    //    _player.transform.localPosition = target; 
+    //}
 }

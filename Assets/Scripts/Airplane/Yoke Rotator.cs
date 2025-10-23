@@ -47,10 +47,10 @@ public class YokeRotator : MonoBehaviour, IHandRotator
         switch (hand.tag) 
         {
             case ("LeftHand"):
-                _bhapticManager.ActiveMotor(PositionType.GloveL, 100, new int[] { _finalPower, _finalPower, _finalPower, _finalPower, _finalPower, _finalPower });
+                _bhapticManager.ActiveMotor(PositionType.GloveL, 0, new int[] { _finalPower, _finalPower, _finalPower, _finalPower, _finalPower, _finalPower });
                 break;
             case ("RightHand"):
-                _bhapticManager.ActiveMotor(PositionType.GloveR, 100, new int[] { _finalPower, _finalPower, _finalPower, _finalPower, _finalPower, _finalPower });
+                _bhapticManager.ActiveMotor(PositionType.GloveR, 0, new int[] { _finalPower, _finalPower, _finalPower, _finalPower, _finalPower, _finalPower });
                 break;
             default:
                 break;

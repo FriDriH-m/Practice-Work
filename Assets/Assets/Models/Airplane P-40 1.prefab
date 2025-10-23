@@ -3896,11 +3896,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27e3d2f25266dba4ab1c65846225899d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectPool: {fileID: 0}
-  spawnPosition:
-  - {fileID: 0}
-  - {fileID: 0}
+  _objectPool: {fileID: 0}
+  _gunsPositions: []
   _shootingSpeed: 0.1
+  _reloadSpeed: 15
 --- !u!1 &2788454561094282387
 GameObject:
   m_ObjectHideFlags: 0
@@ -7153,6 +7152,13 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   _inducedDrag: 1500
+  _yawPower: 1
+  _yawLimiter:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   _sterringPower:
     serializedVersion: 2
     m_Curve:
@@ -7177,20 +7183,6 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  m_TriggerInput:
-    m_InputSourceMode: 2
-    m_InputAction:
-      m_Name: 
-      m_Type: 0
-      m_ExpectedControlType: 
-      m_Id: 5cfd6fe5-feb3-4030-b09b-1efd85524ce9
-      m_Processors: 
-      m_Interactions: 
-      m_SingletonActionBindings: []
-      m_Flags: 0
-    m_InputActionReference: {fileID: 7904272356298805229, guid: c348712bda248c246b8c49b3db54643f, type: 3}
-    m_ObjectReferenceObject: {fileID: 0}
-    m_ManualValue: 0
   _dragForward:
     serializedVersion: 2
     m_Curve:
