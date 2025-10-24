@@ -5,7 +5,8 @@ using Utils;
 
 public class AirplanePhysics : MonoBehaviour
 {
-    [SerializeField] private float del = 80;
+    [SerializeField] private float _pitchDivider;
+    [SerializeField] private float _sterringDivider;
     [SerializeField] private Transform _yoke;
     [SerializeField] private float _maxThrust = 100f;
     [SerializeField, Range(0, 1)] private float _thrust;
@@ -68,17 +69,17 @@ public class AirplanePhysics : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        //Gizmos.color = Color.blue;
-        //Vector3 worldForward = transform.TransformDirection(Vector3.forward) * 15;
-        //Gizmos.DrawLine(transform.position, transform.position + worldForward);
+        Gizmos.color = Color.blue;
+        Vector3 worldForward = transform.TransformDirection(Vector3.forward) * 15;
+        Gizmos.DrawLine(transform.position, transform.position + worldForward);
 
-        //Gizmos.color = Color.green;
-        //Vector3 worldLocalVelocity = transform.TransformDirection(_localVelocity);
-        //Gizmos.DrawLine(transform.position, transform.position + worldLocalVelocity);
+        Gizmos.color = Color.green;
+        Vector3 worldLocalVelocity = transform.TransformDirection(_localVelocity);
+        Gizmos.DrawLine(transform.position, transform.position + worldLocalVelocity);
 
-        //Gizmos.color = Color.red;
-        //Vector3 worldLocalAngularVelocity = transform.TransformDirection(_localAngularVelocity);
-        //Gizmos.DrawLine(transform.position, transform.position + worldLocalAngularVelocity);
+        Gizmos.color = Color.red;
+        Vector3 worldLocalAngularVelocity = transform.TransformDirection(_localAngularVelocity);
+        Gizmos.DrawLine(transform.position, transform.position + worldLocalAngularVelocity);
         //if (Application.isPlaying)
         //{
         //    // Визуализация подъемной силы (зеленый)
@@ -190,7 +191,7 @@ public class AirplanePhysics : MonoBehaviour
         if (signedX <= 1f && signedX >= -1f) signedX = 0f;
         if (signedZ <= 1f && signedZ >= -1f) signedZ = 0f;
 
-        Vector3 targetTorque = new Vector3(signedZ/ 1200, 0, -signedX/ 100);
+        Vector3 targetTorque = new Vector3(signedZ/ _pitchDivider, 0, -signedX/ _sterringDivider);
 
         _rigidbody.AddRelativeTorque(targetTorque * _sterringPower.Evaluate(_localVelocity.magnitude * 3.6f), ForceMode.VelocityChange);
     }

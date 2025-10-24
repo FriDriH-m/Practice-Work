@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using States;
+using System.Collections.Generic;
+using UnityEngine;
 using Utils;
 
 namespace Bots
@@ -6,53 +8,74 @@ namespace Bots
     public class BotAirplaneControl : MonoBehaviour
     {
         [SerializeField] private BotGunsControl gunsControl;
-        private AirplanePhysics _airplanePhysics;
-        private AvoidCrash _avoidCrash;
-        private FollowToPlayer _followToPlayer;
-        private Transform _player;
         private Vector3 _inputVector;
+        private Transform _player;        
+        private AirplanePhysics _airplanePhysics;
+        private CrashAvoidChecker _avoidCrash;
+        private FollowToPlayer _followToPlayer;
+        private IState _currentState;
+        private Dictionary<StatesList, IState> _states;
+        public CrashAvoidChecker CrashAvoidChecker => _avoidCrash;
+        public FollowToPlayer FollowToPlayer => _followToPlayer;
+        public AirplanePhysics AirplanePhysics => _airplanePhysics;
+        public Vector3 InputVector => _inputVector;
 
         private void Start()
         {
+            _states = new Dictionary<StatesList, IState>()
+            {
+                {StatesList.Agro, new Agro() },
+                {StatesList.AvoidCrash, new AvoidCrash() }
+            };
             _player = DIContainer.Instance.Get<Transform>("Player");
             
             _airplanePhysics = GetComponent<AirplanePhysics>();
 
             _followToPlayer = new FollowToPlayer(_player, transform, gunsControl);
-            _avoidCrash = new AvoidCrash(_airplanePhysics);
+            _avoidCrash = new CrashAvoidChecker(_airplanePhysics);
+
+            SwitchState(StatesList.AvoidCrash);
         }
 
         private void Update()
-        {
-            _airplanePhysics.SetThrust(60);
-            _followToPlayer.Follow(ref _inputVector);
-            _airplanePhysics.SetSteeringInput(_inputVector);
+        {            
+            _currentState.Update(this);
             //_airplanePhysics.SetSteeringInput(new Vector3(10, 0, 5));
             //_avoidCrash.CheckToAviod();
         }
+        public void SwitchState(StatesList newState)
+        {
+            if (_currentState != null)
+            {
+                _currentState.Exit(this);
+            }
+            _currentState = _states[newState];
+            _currentState.Enter(this);
+        }
     }
-    public class AvoidCrash
+    public class CrashAvoidChecker
     {
         private AirplanePhysics _airplanePhysics;
         private Vector3 _velocity;
-        public AvoidCrash(AirplanePhysics airplanePhysics)
+
+        public CrashAvoidChecker(AirplanePhysics airplanePhysics)
         {
             _airplanePhysics = airplanePhysics;
         }
 
-        public void CheckToAviod(Vector3 inputVector)
+        public bool CheckToAviod()
         {
             RaycastHit hit;
             _velocity = _airplanePhysics.transform.TransformDirection(_airplanePhysics.LocalVelocity);
-
-            if (Physics.Raycast(_airplanePhysics.transform.position, _velocity.normalized, out hit, _velocity.magnitude * 15))
+            Debug.Log(_velocity.magnitude * 5);
+            if (Physics.Raycast(_airplanePhysics.transform.position, _velocity.normalized, out hit, _velocity.magnitude * 3))
             {
-                inputVector.z = -10;
-                _airplanePhysics.SetSteeringInput(new Vector3(0, 0, -10));
+                return true;
+                
             }
             else
             {
-                _airplanePhysics.SetSteeringInput(new Vector3(0, 0, 0));
+                return false;
             }
         }
     }
@@ -86,7 +109,7 @@ namespace Bots
             }
             if (Mathf.Abs(tanX) < 0.5f) _guns.Shoot();
 
-            if (Mathf.Abs(tanZ) > 0f)
+            if (Mathf.Abs(tanZ) > 3f)
             {
                 inputVector.x = Mathf.Clamp(tanZ, -10f, 10f);
             }
@@ -94,25 +117,8 @@ namespace Bots
             {
                 inputVector.x = 0;
             }
-            
 
-            Debug.Log($"tanX: {tanX:F1}° tanZ: {tanZ:F1}° → input: {inputVector}");
-
-            //var projectX = Vector3.ProjectOnPlane(directionToPlayer, _bot.transform.forward);
-            //var projectY = Vector3.ProjectOnPlane(directionToPlayer, _bot.transform.right);
-            //var projectZ = Vector3.ProjectOnPlane(directionToPlayer, _bot.transform.up);
-
-            // Углы для каждой проекции
-            //float angleX = Vector3.SignedAngle(_bot.transform.right, projectX, _bot.transform.forward);
-            //float angleY = Vector3.SignedAngle(_bot.transform.up, projectY, _bot.transform.right);
-            //float angleZ = Vector3.SignedAngle(_bot.transform.forward, projectZ, _bot.transform.up);
-
-            // Приведение углов к диапазону [-180, 180]
-            //float signedX = (angleX > 180f) ? angleX - 360f : angleX;
-            //float signedY = (angleY > 180f) ? angleY - 360f : angleY;
-            //float signedZ = (angleZ > 180f) ? angleZ - 360f : angleZ;
-
-            //Debug.Log($"Signed X: {signedX}° | Signed Y: {signedY}° | Signed Z: {signedZ}°");            
+            Debug.Log($"tanX: {tanX:F1}° tanZ: {tanZ:F1}° → input: {inputVector}");         
         }
     }
 }

@@ -2452,43 +2452,43 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6485877311583126440, guid: 3c52f5ed9b2094abeb34f5a0d6da0250, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1154
+      value: 795
       objectReference: {fileID: 0}
     - target: {fileID: 6485877311583126440, guid: 3c52f5ed9b2094abeb34f5a0d6da0250, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1012
+      value: 1008
       objectReference: {fileID: 0}
     - target: {fileID: 6485877311583126440, guid: 3c52f5ed9b2094abeb34f5a0d6da0250, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 825
+      value: 1591
       objectReference: {fileID: 0}
     - target: {fileID: 6485877311583126440, guid: 3c52f5ed9b2094abeb34f5a0d6da0250, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.7162505
+      value: 0.3478408
       objectReference: {fileID: 0}
     - target: {fileID: 6485877311583126440, guid: 3c52f5ed9b2094abeb34f5a0d6da0250, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.54916185
+      value: -0.29630056
       objectReference: {fileID: 0}
     - target: {fileID: 6485877311583126440, guid: 3c52f5ed9b2094abeb34f5a0d6da0250, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.4050007
+      value: -0.11961951
       objectReference: {fileID: 0}
     - target: {fileID: 6485877311583126440, guid: 3c52f5ed9b2094abeb34f5a0d6da0250, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.14622273
+      value: 0.88142157
       objectReference: {fileID: 0}
     - target: {fileID: 6485877311583126440, guid: 3c52f5ed9b2094abeb34f5a0d6da0250, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: 64.839
+      value: 0.272
       objectReference: {fileID: 0}
     - target: {fileID: 6485877311583126440, guid: 3c52f5ed9b2094abeb34f5a0d6da0250, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 80.689
+      value: -37.269
       objectReference: {fileID: 0}
     - target: {fileID: 6485877311583126440, guid: 3c52f5ed9b2094abeb34f5a0d6da0250, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 33.612
+      value: 136.836
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2506,6 +2506,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 5857397102570494226, guid: 3c52f5ed9b2094abeb34f5a0d6da0250, type: 3}
       insertIndex: -1
       addedObject: {fileID: 962369378}
+    - targetCorrespondingSourceObject: {fileID: 5857397102570494226, guid: 3c52f5ed9b2094abeb34f5a0d6da0250, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 962369381}
     - targetCorrespondingSourceObject: {fileID: 6149987769232621611, guid: 3c52f5ed9b2094abeb34f5a0d6da0250, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1794065262}
@@ -2527,11 +2530,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c7cf16e13a1c074db12110643f9a440, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  del: 500
+  _pitchDivider: 1100
+  _sterringDivider: 200
   _yoke: {fileID: 7354813509242114011}
   _maxThrust: 13000
   _thrust: 0
-  _liftPower: 40
+  _liftPower: 100
   _rudderPower: 100
   _liftCoefficient:
     serializedVersion: 2
@@ -2892,6 +2896,24 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 1
+--- !u!114 &962369381
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 962369372}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineMode: 0
+  outlineColor: {r: 1, g: 1, b: 1, a: 1}
+  outlineWidth: 0.99
+  precomputeOutline: 0
+  bakeKeys: []
+  bakeValues: []
 --- !u!1 &1001115202
 GameObject:
   m_ObjectHideFlags: 0
@@ -3853,7 +3875,7 @@ MeshCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 5
-  m_Convex: 1
+  m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 2959467708922500008, guid: 56e8e0eb8257546b98c59cae9c52c002, type: 3}
 --- !u!1 &1849701575
@@ -16384,7 +16406,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c7cf16e13a1c074db12110643f9a440, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  del: 500
+  _pitchDivider: 1200
+  _sterringDivider: 250
   _yoke: {fileID: 7354813509242114011}
   _maxThrust: 15000
   _thrust: 0
