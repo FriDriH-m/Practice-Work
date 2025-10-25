@@ -38,7 +38,7 @@ public class YokeRotator : MonoBehaviour, IHandRotator
         float targetX = Mathf.Clamp(x, -10f, 10f);
         float targetZ = Mathf.Clamp(z, -10f, 10f);
 
-        transform.localEulerAngles = new Vector3(targetX, 0, targetZ);
+        transform.localEulerAngles = new Vector3(targetX, y, targetZ);
 
         var _motorsPowerX = (int)(100 * Mathf.InverseLerp(-10, 10, targetX));
         var _motorsPowerZ = (int)(100 * Mathf.InverseLerp(-10, 10, targetZ));

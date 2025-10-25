@@ -34,7 +34,7 @@ namespace Bots
             _followToPlayer = new FollowToPlayer(_player, transform, gunsControl);
             _avoidCrash = new CrashAvoidChecker(_airplanePhysics);
 
-            SwitchState(StatesList.AvoidCrash);
+            SwitchState(StatesList.Agro);
         }
 
         private void Update()
@@ -124,23 +124,31 @@ namespace Bots
 
             float targetPitch = 0f;
             float targetRoll = 0f;
-
+            float targetYaw = 0f;
             
 
-            if (Mathf.Abs(tanX) > 0.5f) targetPitch = Mathf.Clamp(tanX, -10f, 10f);
-            //else _bot.LookAt(_player);
+            if (Mathf.Abs(tanX) > 0.1f) targetPitch = Mathf.Clamp(tanX, -10f, 10f);
 
-            if (Mathf.Abs(tanZ) > 0.5f) targetRoll = Mathf.Clamp(tanZ * 2, -10f, 10f);
-            else targetPitch = 0f;
-
+            if (Mathf.Abs(tanZ) > 1f) targetRoll = Mathf.Clamp(tanZ * 2, -10f, 10f);
+            else if (Mathf.Abs(tanZ) > 0.1f)
+            {
+                targetYaw = tanZ/5;
+                targetRoll = tanZ;
+            }
+            else
+            {
+                targetYaw = 0f;
+                targetRoll = 0f;
+            }
             Vector3 _smoothedInput = Vector3.zero;
 
             _smoothedInput.z = targetPitch;
+            _smoothedInput.y = targetYaw;
             _smoothedInput.x = targetRoll;
 
             inputVector = _smoothedInput;
 
-            bool inCrosshair = Mathf.Abs(tanX) < 1f && Mathf.Abs(tanZ) < 1f;  
+            bool inCrosshair = Mathf.Abs(tanX) < 0.8f && Mathf.Abs(tanZ) < 0.8f;  
             if (inCrosshair && time < 4f)
             {
                 _guns.Shoot();

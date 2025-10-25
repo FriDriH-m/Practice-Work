@@ -52,6 +52,7 @@ public class AirplanePhysics : MonoBehaviour
     private Vector3 _lastInducedDrag;
     private Vector3 _lastDrag;
     private Vector3 _yawForce;
+    private bool useY = false;
 
     private void Awake()
     {
@@ -124,7 +125,7 @@ public class AirplanePhysics : MonoBehaviour
         CalculateGForce(deltaTime);
 
         UpdateLift();
-        UpdateSteering(deltaTime, _sterringInput);
+        UpdateSteering(deltaTime, _sterringInput, useY);
 
         _yawVelocity = new Vector3(0, _yawInput * (_yawPower * _yawLimiter.Evaluate(_localVelocity.magnitude * 3.6f)), 0);
 
@@ -133,8 +134,9 @@ public class AirplanePhysics : MonoBehaviour
         //Debug.Log(_angleOfAttackYaw + " | " + _localGForce.magnitude);
     }
 
-    public void SetSteeringInput(Vector3 newInpit)
+    public void SetSteeringInput(Vector3 newInpit, bool useY = false)
     {
+        this.useY = useY;
         _sterringInput = newInpit;
     }
 
@@ -181,18 +183,20 @@ public class AirplanePhysics : MonoBehaviour
         _rigidbody.AddRelativeForce(yawForce);
     }
 
-    private void UpdateSteering(float deltaTime, Vector3 input)
+    private void UpdateSteering(float deltaTime, Vector3 input, bool useY = false)
     {
         Vector3 euler = input;
 
         float signedX = (euler.x > 180f) ? euler.x - 360f : euler.x;  
         float signedZ = (euler.z > 180f) ? euler.z - 360f : euler.z;
-        float signedY = (euler.y > 180f) ? euler.y - 360f : euler.y;
+        float signedY = 0;
+        if (useY) signedY = (euler.y > 180f) ? euler.y - 360f : euler.y;
+
 
         //if (signedX <= 1f && signedX >= -1f) signedX = 0f;
         //if (signedZ <= 1f && signedZ >= -1f) signedZ = 0f;
 
-        Vector3 targetTorque = new Vector3(signedZ/ _pitchDivider, 0, -signedX/ _sterringDivider);
+        Vector3 targetTorque = new Vector3(signedZ/ _pitchDivider, signedY / 100, -signedX/ _sterringDivider);
 
         _rigidbody.AddRelativeTorque(targetTorque * _sterringPower.Evaluate(_localVelocity.magnitude * 3.6f) * 100, ForceMode.Acceleration);
     }

@@ -25,7 +25,7 @@ namespace States
             if (botControl.CrashAvoidChecker.CheckToAviod()) botControl.SwitchState(StatesList.AvoidCrash);
             botControl.AirplanePhysics.SetThrust(60);
             botControl.FollowToPlayer.Follow(ref _inputVector);
-            botControl.AirplanePhysics.SetSteeringInput(_inputVector);
+            botControl.AirplanePhysics.SetSteeringInput(_inputVector, true);
         }
     }
     public class AvoidCrash : IState
