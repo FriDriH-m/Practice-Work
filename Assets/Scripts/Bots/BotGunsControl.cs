@@ -17,4 +17,8 @@ public class BotGunsControl : MonoBehaviour
     {
         _gunsShootingSystem.Shoot();
     }
+    public int GetBulletSpeed()
+    {
+        return _gunsShootingSystem.BulletSpeed;
+    }
 }

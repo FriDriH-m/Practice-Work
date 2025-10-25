@@ -17,6 +17,7 @@ public class GunsShootingSystem : MonoBehaviour
     private Queue<GameObject> _shootedAmmo = new Queue<GameObject>();
     private Coroutine _shootCoroutine;
     private AirplanePhysics _airplanePhysics;
+    public int BulletSpeed => _bulletSpeed;
     public Queue<GameObject> Ammo => _ammo;
     public float ReloadTimer => _reloadTimer;
     public bool IsReloading => _isReloading;

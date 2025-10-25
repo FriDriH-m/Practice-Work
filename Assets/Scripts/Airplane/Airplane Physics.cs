@@ -186,14 +186,15 @@ public class AirplanePhysics : MonoBehaviour
         Vector3 euler = input;
 
         float signedX = (euler.x > 180f) ? euler.x - 360f : euler.x;  
-        float signedZ = (euler.z > 180f) ? euler.z - 360f : euler.z; 
-        
-        if (signedX <= 1f && signedX >= -1f) signedX = 0f;
-        if (signedZ <= 1f && signedZ >= -1f) signedZ = 0f;
+        float signedZ = (euler.z > 180f) ? euler.z - 360f : euler.z;
+        float signedY = (euler.y > 180f) ? euler.y - 360f : euler.y;
+
+        //if (signedX <= 1f && signedX >= -1f) signedX = 0f;
+        //if (signedZ <= 1f && signedZ >= -1f) signedZ = 0f;
 
         Vector3 targetTorque = new Vector3(signedZ/ _pitchDivider, 0, -signedX/ _sterringDivider);
 
-        _rigidbody.AddRelativeTorque(targetTorque * _sterringPower.Evaluate(_localVelocity.magnitude * 3.6f), ForceMode.VelocityChange);
+        _rigidbody.AddRelativeTorque(targetTorque * _sterringPower.Evaluate(_localVelocity.magnitude * 3.6f) * 100, ForceMode.Acceleration);
     }
 
     private float CalculateSteering(float deltaTime, float angularVelocity, float targetVelocity, float acceleration)

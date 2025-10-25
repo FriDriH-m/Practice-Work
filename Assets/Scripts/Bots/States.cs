@@ -31,6 +31,7 @@ namespace States
     public class AvoidCrash : IState
     {
         private Vector3 _inputVector;
+        private float timer;
         public void Enter(BotAirplaneControl botControl)
         {
 
@@ -41,7 +42,17 @@ namespace States
         }
         public void Update(BotAirplaneControl botControl)
         {
-            if (!botControl.CrashAvoidChecker.CheckToAviod()) botControl.SwitchState(StatesList.Agro);
+            if (!botControl.CrashAvoidChecker.CheckToAviod())
+            {
+                timer += Time.deltaTime;
+            }
+            else timer = 0;
+
+            if (timer > 1.5f)
+            {
+                botControl.SwitchState(StatesList.Agro);
+            }
+
             botControl.AirplanePhysics.SetThrust(60);
 
             Vector3 aircraftRight = botControl.AirplanePhysics.transform.right;
