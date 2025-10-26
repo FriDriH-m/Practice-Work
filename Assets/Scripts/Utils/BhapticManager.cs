@@ -30,7 +30,6 @@ namespace Utils
         }
         private IEnumerator StartEvent(string eventName)
         {
-            Debug.Log($"Start event: {eventName}");
             BhapticsLibrary.Play(eventId: eventName, intensity: 1, duration: 1);
 
             _playingEvents.Add(eventName);

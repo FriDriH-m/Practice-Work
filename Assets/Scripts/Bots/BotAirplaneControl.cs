@@ -43,11 +43,14 @@ namespace Bots
             //_airplanePhysics.SetSteeringInput(new Vector3(10, 0, 5));
             //_avoidCrash.CheckToAviod();
         }
-        private void OnDrawGizmos()
-        {
-            Gizmos.color = Color.yellow;
-            Gizmos.DrawSphere(_followToPlayer.a, 0.5f);
-        }
+        //private void OnDrawGizmos()
+        //{
+        //    Gizmos.color = Color.yellow;
+        //    if (_followToPlayer.a != null)
+        //    {
+        //        Gizmos.DrawSphere(_followToPlayer.a, 0.5f);
+        //    }
+        //}
         public void SwitchState(StatesList newState)
         {
             if (_currentState != null)
@@ -77,7 +80,6 @@ namespace Bots
             {
                 if (hit.collider.tag == "Plane")
                 {
-                    Debug.Log("Рейкаст по самолету");
                     return false;
                 }
                 return true;                
@@ -154,7 +156,7 @@ namespace Bots
                 _guns.Shoot();
             }
 
-            Debug.LogError($"tanX: {tanX:F1}° tanZ: {tanZ:F1}° → input: {inputVector}");
+            //Debug.Log($"tanX: {tanX:F1}° tanZ: {tanZ:F1}° → input: {inputVector}");
         }
     }
 }
