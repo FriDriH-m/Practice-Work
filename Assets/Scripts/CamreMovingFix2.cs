@@ -39,7 +39,7 @@ public class FuturiftSimpleCompensator : MonoBehaviour
         float pitch = -futuriftController.Pitch;
         float roll = futuriftController.Roll;
 
-        float targetX = 0 - pitch * 1f;
+        float targetX = 0 - pitch * 3f;
         float targetZ = 0 + roll;
 
         float newX = Mathf.SmoothDampAngle(rotatingObject.localEulerAngles.x, targetX, ref velX, smoothTime);

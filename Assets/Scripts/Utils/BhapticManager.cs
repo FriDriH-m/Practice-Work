@@ -36,7 +36,7 @@ namespace Utils
 
             yield return new WaitForSeconds(_eventsDuration[eventName]);
 
-            Debug.Log($"End event: {eventName}");
+            //Debug.Log($"End event: {eventName}");
             BhapticsLibrary.StopByEventId(eventName);
             _playingEvents.Remove(eventName);
         }

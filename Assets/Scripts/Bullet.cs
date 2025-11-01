@@ -10,12 +10,11 @@ public interface IBullet
 public class Bullet : MonoBehaviour, IBullet
 {
     public bool _isDamaged { get; private set; }
-    public int _damage { get; private set; }
+    [field: SerializeField] public int _damage { get; private set; }
 
     private void Awake()
     {
         _isDamaged = false;
-        _damage = 50;
     }
     public void MakeWasDamaged() 
     {

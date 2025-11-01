@@ -33,7 +33,6 @@ public class Indicator : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Debug.Log(_valueProvider.GetValue());
         UpdateRotation();
     }
 }

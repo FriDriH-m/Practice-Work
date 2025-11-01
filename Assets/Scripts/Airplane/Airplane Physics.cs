@@ -1,4 +1,5 @@
 using Bhaptics.SDK2;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit.Inputs.Readers;
 using Utils;
@@ -11,11 +12,11 @@ public class AirplanePhysics : MonoBehaviour
     [SerializeField] private float _maxThrust = 100f;
     [SerializeField, Range(0, 1)] private float _thrust;
     [SerializeField] private float _liftPower;
-    [SerializeField] private float _rudderPower;
-    [SerializeField] private AnimationCurve _liftCoefficient;
-    [SerializeField] private AnimationCurve _rubberCoefficient;
+    [SerializeField] private float _rudderPower;    
     [SerializeField] private float _inducedDrag;
     [SerializeField] private float _yawPower = 1f;
+    [SerializeField] private AnimationCurve _liftCoefficient;
+    [SerializeField] private AnimationCurve _rubberCoefficient;
     [SerializeField] private AnimationCurve _yawLimiter;
     [SerializeField] private AnimationCurve _sterringPower;
 
@@ -32,6 +33,8 @@ public class AirplanePhysics : MonoBehaviour
     private BhapticManager _bhapticManager;
 
     private bool _isEngineOn;
+    private bool _isEngineBroken;
+    private float _thrustDivider = 1;
     private float _yawInput;
     private float _angleOfAttack;
     private float _angleOfAttackYaw;
@@ -42,6 +45,8 @@ public class AirplanePhysics : MonoBehaviour
     private Vector3 _yawVelocity;
     private Vector3 _sterringInput;
 
+    public float PitchDivider => _pitchDivider;
+    public float SterringDivider => _sterringDivider;
     public Vector3 LocalVelocity => _localVelocity;
     public Vector3 LocalAngularVelocity => _localAngularVelocity;
     public Vector3 LocalGForce => _localGForce;
@@ -113,7 +118,6 @@ public class AirplanePhysics : MonoBehaviour
         //    UnityEditor.Handles.Label(transform.position + worldRudder, "Rudder Force");
         //}
     }
-
     private void FixedUpdate()
     {
         float deltaTime = Time.fixedDeltaTime;
@@ -133,15 +137,18 @@ public class AirplanePhysics : MonoBehaviour
         _rigidbody.AddRelativeTorque(_yawVelocity, ForceMode.Force); // Yaw (рысканье)
         //Debug.Log(_angleOfAttackYaw + " | " + _localGForce.magnitude);
     }
-
     public void SetSteeringInput(Vector3 newInpit, bool useY = false)
     {
         this.useY = useY;
         _sterringInput = newInpit;
     }
-
     public void SetThrust(float angle)
     {        
+        if (_isEngineBroken)
+        {
+            _thrust = 0;
+            return;
+        }
         if (angle <= 0.1f)
         {
             if (_isEngineOn) _bhapticManager.RequestStartEvent(BhapticsEvent.ENGINESTOP);
@@ -152,15 +159,14 @@ public class AirplanePhysics : MonoBehaviour
         }
         if (angle >= 60f)
         {
-            _thrust = 1f;
+            _thrust = 1f / _thrustDivider;
             _isEngineOn = true;
             return;
         }
         _isEngineOn = true;
         _bhapticManager.RequestStartEvent(BhapticsEvent.ENGINESTART);
-        _thrust = angle / 60;
+        _thrust = (angle / 60) / _thrustDivider;
     }
-
     private void UpdateCurrentState()
     {
         Quaternion inverseRotation = Quaternion.Inverse(_rigidbody.rotation);
@@ -168,7 +174,6 @@ public class AirplanePhysics : MonoBehaviour
         _localVelocity = inverseRotation * _rigidbody.linearVelocity;
         _localAngularVelocity = inverseRotation * _rigidbody.angularVelocity;
     }
-
     private void UpdateLift()
     {
         if (_localVelocity.sqrMagnitude < 1f) return;
@@ -200,14 +205,22 @@ public class AirplanePhysics : MonoBehaviour
 
         _rigidbody.AddRelativeTorque(targetTorque * _sterringPower.Evaluate(_localVelocity.magnitude * 3.6f) * 100, ForceMode.Acceleration);
     }
-
+    public void SetPlaneDividers(float pitchDivider = 0, float steeringDivider = 0, float thrustDivider = 0)
+    {
+        _sterringDivider += steeringDivider;
+        _pitchDivider += pitchDivider;
+        _thrustDivider += thrustDivider;
+    }
+    public void BrokeEngine()
+    {
+        _isEngineBroken = true;
+    }
     private float CalculateSteering(float deltaTime, float angularVelocity, float targetVelocity, float acceleration)
     {
         float steering = angularVelocity - targetVelocity;
         float acltion = acceleration * deltaTime;
         return Mathf.Clamp(steering, -acltion, acltion);
     }
-
     private void CalculateAngleOfAttack()
     {
         if (_localVelocity.sqrMagnitude < 0.1f)
@@ -247,7 +260,6 @@ public class AirplanePhysics : MonoBehaviour
 
         _rigidbody.AddRelativeForce(drag);
     }
-
     private Vector3 CalculateLift(float angleOfAttack, Vector3 rightAxis, AnimationCurve ribberAOACurve, float liftPower)
     {
         var liftVelocity = Vector3.ProjectOnPlane(_localVelocity, rightAxis);

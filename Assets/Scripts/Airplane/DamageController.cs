@@ -1,5 +1,7 @@
 using UnityEngine;
 
+
+
 public class DamageController : MonoBehaviour
 {
     [SerializeField] private PartOfPlane _part;
@@ -7,7 +9,6 @@ public class DamageController : MonoBehaviour
 
     private void Awake()
     {
-        
         _airplanePhysics = GetComponentInParent<AirplanePhysics>();
         if (_airplanePhysics == null)
         {
@@ -17,14 +18,10 @@ public class DamageController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("Контакт");
         if (other.TryGetComponent<IBullet>(out IBullet bullet) && !bullet._isDamaged)
         {
             Debug.Log("Урон по" + bullet._damage + ": " + _part);
         }
     }
 }
-public enum PartOfPlane 
-{ 
-    Engine, Fuselage, Wings
-}
+
