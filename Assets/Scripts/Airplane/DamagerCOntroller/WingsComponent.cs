@@ -29,6 +29,7 @@ public class WingsComponent : MonoBehaviour, IDamagable
             newParticles.transform.localScale = new Vector3(20, 20, 20);
             newParticles.Play();
         }
+        
     }
     private void OnTriggerEnter(Collider other)
     {

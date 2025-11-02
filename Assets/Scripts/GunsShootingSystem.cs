@@ -84,7 +84,7 @@ public class GunsShootingSystem : MonoBehaviour
 
                 Rigidbody rigidbody = newBullet.GetComponent<Rigidbody>();
 
-                rigidbody.linearVelocity = _airplanePhysics.GetComponent<Rigidbody>().GetPointVelocity(_gunsPositions[i].position) + _gunsPositions[i].forward * _bulletSpeed;
+                rigidbody.linearVelocity = _airplanePhysics.GetComponent<Rigidbody>().GetPointVelocity(_gunsPositions[i].position) + (_gunsPositions[i].forward + new Vector3(0, 0.1f, 0)) * _bulletSpeed;
                 rigidbody.angularVelocity = Vector3.zero;   
             }
         }
