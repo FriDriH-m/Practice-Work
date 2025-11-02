@@ -10,4 +10,10 @@ namespace Interfaces
     {
         public void TakeDamage(int damageCount);
     }
+    public interface ITutorialBlock 
+    { 
+        public void NextBlock();
+        public void ActivateBlock();
+    }
+
 }
