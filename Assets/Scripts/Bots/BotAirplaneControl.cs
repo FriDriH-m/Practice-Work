@@ -129,12 +129,12 @@ namespace Bots
             float targetYaw = 0f;
             
 
-            if (Mathf.Abs(tanX) > 0.1f) targetPitch = Mathf.Clamp(tanX, -10f, 10f);
+            if (Mathf.Abs(tanX) > 0.1f) targetPitch = Mathf.Clamp(tanX * 2, -10f, 10f);
 
-            if (Mathf.Abs(tanZ) > 1f) targetRoll = Mathf.Clamp(tanZ * 2, -10f, 10f);
+            if (Mathf.Abs(tanZ) > 1f) targetRoll = Mathf.Clamp(tanZ * 3, -10f, 10f);
             else if (Mathf.Abs(tanZ) > 0.1f)
             {
-                targetYaw = tanZ/5;
+                targetYaw = tanZ/3;
                 targetRoll = tanZ;
             }
             else
@@ -151,12 +151,12 @@ namespace Bots
             inputVector = _smoothedInput;
 
             bool inCrosshair = Mathf.Abs(tanX) < 0.8f && Mathf.Abs(tanZ) < 0.8f;  
-            if (inCrosshair && time < 4f)
+            if (inCrosshair && time < 6f)
             {
                 _guns.Shoot();
             }
 
-            //Debug.Log($"tanX: {tanX:F1}° tanZ: {tanZ:F1}° → input: {inputVector}");
+            Debug.Log($"tanX: {tanX:F1}° tanZ: {tanZ:F1}° time: {time}");
         }
     }
 }
