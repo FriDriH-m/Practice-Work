@@ -4373,7 +4373,7 @@ MonoBehaviour:
   _thrust: 0
   _liftPower: 70
   _rudderPower: 100
-  _inducedDrag: 1500
+  _inducedDrag: 7000
   _yawPower: 12000
   _liftCoefficient:
     serializedVersion: 2
@@ -4557,12 +4557,12 @@ MonoBehaviour:
       outWeight: 0
     - serializedVersion: 3
       time: 150
-      value: 0.1
-      inSlope: 0.001917143
-      outSlope: 0.001917143
+      value: 0.05
+      inSlope: 0.0009211269
+      outSlope: 0.0009211269
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.05637248
+      inWeight: 0.06740194
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
@@ -4605,12 +4605,12 @@ MonoBehaviour:
       outWeight: 0.09191177
     - serializedVersion: 3
       time: 150
-      value: 6
-      inSlope: 0.12305387
-      outSlope: 0.12305387
+      value: 4
+      inSlope: 0.08378413
+      outSlope: 0.08378413
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.04044108
+      inWeight: 0.0392156
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
@@ -4629,12 +4629,12 @@ MonoBehaviour:
       outWeight: 0.10539217
     - serializedVersion: 3
       time: 150
-      value: 6
-      inSlope: 0.12541209
-      outSlope: 0.12541209
+      value: 4
+      inSlope: 0.081514575
+      outSlope: 0.081514575
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.035539143
+      inWeight: 0.0465685
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
@@ -4653,12 +4653,12 @@ MonoBehaviour:
       outWeight: 0.09803922
     - serializedVersion: 3
       time: 150
-      value: 6
-      inSlope: 0.117413856
-      outSlope: 0.117413856
+      value: 3
+      inSlope: 0.055403776
+      outSlope: 0.055403776
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.04901957
+      inWeight: 0.047793984
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
@@ -4677,12 +4677,12 @@ MonoBehaviour:
       outWeight: 0.08466259
     - serializedVersion: 3
       time: 150
-      value: 6
-      inSlope: 0.1196986
-      outSlope: 0.1196986
+      value: 3
+      inSlope: 0.057882335
+      outSlope: 0.057882335
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.05024519
+      inWeight: 0.045343246
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2

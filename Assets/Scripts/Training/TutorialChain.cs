@@ -9,7 +9,7 @@ public class TutorialChain : MonoBehaviour, ITutorialBlock
     [SerializeField] private List<Outline> outlinesToEnable;
     private ITutorialBlock nextTutorialBlock;
 
-    private void OnEnable()
+    private void Start()
     {
         if (nextBlock.TryGetComponent<ITutorialBlock>(out var tutorialBlock))
         {
@@ -26,11 +26,10 @@ public class TutorialChain : MonoBehaviour, ITutorialBlock
             }
         }
         gameObject.SetActive(true);
-        Debug.Log("Activated tutorial block: " + gameObject.name);
     }
     public void NextBlock()
     {
-        if (nextTutorialBlock == null)
+        if (nextTutorialBlock != null)
         {
             nextTutorialBlock.ActivateBlock();
         }
