@@ -16,4 +16,12 @@ namespace Interfaces
         public void ActivateBlock();
     }
 
+    public interface ITutorialStage
+    {
+        public bool CheckProgress();
+        public void ActivateStage();
+        public void CompleteStage();
+    }
+
+
 }

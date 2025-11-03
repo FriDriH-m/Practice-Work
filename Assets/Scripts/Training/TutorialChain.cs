@@ -7,14 +7,18 @@ public class TutorialChain : MonoBehaviour, ITutorialBlock
 {
     [SerializeField] private GameObject nextBlock;
     [SerializeField] private List<Outline> outlinesToEnable;
-    private ITutorialBlock nextTutorialBlock;
+    private ITutorialBlock _nextTutorialBlock;
 
-    private void Start()
+    private void InitNextBlock()
     {
-        if (nextBlock.TryGetComponent<ITutorialBlock>(out var tutorialBlock))
+        if (TryGetComponent<ITutorialBlock>(out var tutorialBlock))
         {
-            nextTutorialBlock = tutorialBlock;
-        } else Debug.LogError("Next tutorial block does not implement ITutorialBlock interface");
+           _nextTutorialBlock = tutorialBlock;
+        }
+        if (_nextTutorialBlock == null)
+        {
+            Debug.LogWarning("Next Tutorial Block is not set or does not implement ITutorialBlock");
+        }
     }
     public void ActivateBlock()
     {
@@ -29,10 +33,12 @@ public class TutorialChain : MonoBehaviour, ITutorialBlock
     }
     public void NextBlock()
     {
-        if (nextTutorialBlock != null)
+        InitNextBlock();
+        if (_nextTutorialBlock != null)
         {
-            nextTutorialBlock.ActivateBlock();
-        }
+            _nextTutorialBlock.ActivateBlock();
+            Debug.Log("Next Tutorial Block Activated");
+        } else Debug.Log("Next Tutorial Block No");
         if (outlinesToEnable.Count > 0)
         {
             foreach (Outline outline in outlinesToEnable)

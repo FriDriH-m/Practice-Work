@@ -1,22 +1,18 @@
-using Interfaces;
 using UnityEngine;
-using UnityEngine.UI;
-
-public class TakeOffTutorial : MonoBehaviour, ITutorialStage
+using Interfaces;
+public class SetThrustTutorial : MonoBehaviour, ITutorialStage
 {
-    [SerializeField] private GameObject _airplane;
+    [SerializeField] private AirplanePhysics _airplanePhysics;
     [SerializeField] private Outline _outline;
-
     public void ActivateStage()
     {
-        if (_airplane == null) Debug.LogError("Airplane reference is missing in TakeOffTutorial");   
+        if (_airplanePhysics == null) Debug.LogWarning("AirplanePhysics reference is not set in SetThrustTutorial.");
         gameObject.SetActive(true);
         _outline.enabled = true;
     }
-
     public bool CheckProgress()
     {
-        if (_airplane.transform.position.y > 15f) return true;
+        if (_airplanePhysics.Thrust > 0.9f) return true;
         else return false;
     }
 
