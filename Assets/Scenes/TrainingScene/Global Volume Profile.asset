@@ -29,7 +29,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ccf1aba9553839d41ae37dd52e9ebcce, type: 3}
   m_Name: MotionBlur
   m_EditorClassIdentifier: 
-  active: 1
+  active: 0
   mode:
     m_OverrideState: 0
     m_Value: 0
@@ -150,12 +150,12 @@ MonoBehaviour:
   active: 1
   shadows:
     m_OverrideState: 1
-    m_Value: {x: 1, y: 1, z: 1, w: -0.64278984}
+    m_Value: {x: 1, y: 1, z: 1, w: -0.3459638}
   midtones:
     m_OverrideState: 1
-    m_Value: {x: 0.9524759, y: 0.9873701, z: 1, w: -0.16399604}
+    m_Value: {x: 0.9524759, y: 0.9873701, z: 1, w: -0.32619455}
   highlights:
-    m_OverrideState: 1
+    m_OverrideState: 0
     m_Value: {x: 1, y: 1, z: 1, w: -0.13760583}
   shadowsStart:
     m_OverrideState: 0
