@@ -57,5 +57,6 @@ public class SecondStageTutorial : MonoBehaviour, ITutorialBlock
                 Debug.LogWarning("One of the stages does not implement ITutorialStage");
             }
         }
+        else gameObject.SetActive(false);
     }
 }

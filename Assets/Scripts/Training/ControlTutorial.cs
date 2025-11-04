@@ -6,21 +6,34 @@ using Utils;
 public class ControlTutorial : MonoBehaviour, ITutorialStage
 {
     [SerializeField] private Outline _outline;
+    private int _passedTops = 0;
+    private int _hittedTarget = 0;
     private bool _isComplete = false;
+    
 
     private void PassedRing()
     {
-        _isComplete = true;
+        _passedTops++;
+    }
+    private void HitTarget()
+    {
+        _hittedTarget++;
     }
     public void ActivateStage()
     {
         gameObject.SetActive(true);
-        DIContainer.Instance.Get<MatchManager>().PlayerPassedRing += PassedRing;
+        var manager = DIContainer.Instance.Get<MatchManager>();
+        manager.PlayerPassedRing += PassedRing;
+        manager.PlayerHitTarget += HitTarget;
     }
 
     public bool CheckProgress()
     {
-        return _isComplete;
+        if (_passedTops >= 1 && _hittedTarget >= 1)
+        {
+            return true;
+        }
+        return false;
     }
 
     public void CompleteStage()

@@ -11,6 +11,7 @@ public class TutorialChain : MonoBehaviour, ITutorialBlock
 
     private void InitNextBlock()
     {
+        if (nextBlock == null) return;
         if (nextBlock.TryGetComponent<ITutorialBlock>(out var tutorialBlock))
         {
            _nextTutorialBlock = tutorialBlock;

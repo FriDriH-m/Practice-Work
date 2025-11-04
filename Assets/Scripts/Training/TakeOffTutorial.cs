@@ -16,12 +16,17 @@ public class TakeOffTutorial : MonoBehaviour, ITutorialStage
 
     public bool CheckProgress()
     {
-        if (_airplane.transform.position.y > 15f) return true;
+        if (_airplane.transform.position.y > 15f)
+        {
+            Debug.Log("TakeOffTutorial completed");
+            return true;
+        }
         else return false;
     }
 
     public void CompleteStage()
     {
+        Debug.Log("TakeOffTutorial CompleteStage called");
         _outline.enabled = false;
         gameObject.SetActive(false);
     }
