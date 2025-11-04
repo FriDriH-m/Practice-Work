@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class SecondStageTutorial : MonoBehaviour, ITutorialBlock
 {
-    [SerializeField] private MonoBehaviour[] _stagesBlocks;
+    [SerializeField] private GameObject[] _stagesBlocks;
     private ITutorialStage _currentTutorialStage;
     private int _currentStage = 0;
 
@@ -22,7 +22,10 @@ public class SecondStageTutorial : MonoBehaviour, ITutorialBlock
     {
         if (_stagesBlocks.Length > 0)
         {
-            _currentTutorialStage = _stagesBlocks[_currentStage] as ITutorialStage;
+            if (_stagesBlocks[_currentStage].TryGetComponent<ITutorialStage>(out var tutorialStage))
+            {
+                _currentTutorialStage = tutorialStage;
+            }
             if (_currentTutorialStage == null)
             {
                 Debug.LogWarning("One of the stages does not implement ITutorialStage");
@@ -45,7 +48,10 @@ public class SecondStageTutorial : MonoBehaviour, ITutorialBlock
         _currentStage++;
         if (_currentStage < _stagesBlocks.Length)
         {
-            _currentTutorialStage = _stagesBlocks[_currentStage] as ITutorialStage;
+            if (_stagesBlocks[_currentStage].TryGetComponent<ITutorialStage>(out var tutorialStage))
+            {
+                _currentTutorialStage = tutorialStage;
+            };
             if (_currentTutorialStage == null)
             {
                 Debug.LogWarning("One of the stages does not implement ITutorialStage");
