@@ -21,9 +21,9 @@ public class Bullet : MonoBehaviour, IBullet
     {
         _isDamaged = true;
     }
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
-        if (collision.gameObject.TryGetComponent<IDamagable>(out var damagable))
+        if (other.gameObject.TryGetComponent<IDamagable>(out var damagable))
         {
             damagable.TakeDamage(_damage);
         }

@@ -30,14 +30,4 @@ public class FuselageComponent : MonoBehaviour, IDamagable
             newParticles.Play();
         }
     }
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.TryGetComponent<Bullet>(out var bullet) && !bullet._isDamaged)
-        {
-            Debug.Log("Попал");
-            TakeDamage(bullet._damage);
-            var newParticles = Instantiate(_hitParticle, transform.position, transform.rotation, transform);
-            newParticles.Play();
-        }
-    }
 }

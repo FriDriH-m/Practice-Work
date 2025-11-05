@@ -5,10 +5,10 @@ using Utils;
 
 public class ControlTutorial : MonoBehaviour, ITutorialStage
 {
-    [SerializeField] private Outline _outline;
+    [SerializeField] private Outline[] _outlines;
+    [SerializeField] private GameObject _endTutorial;
     private int _passedTops = 0;
     private int _hittedTarget = 0;
-    private bool _isComplete = false;
     
 
     private void PassedRing()
@@ -25,6 +25,11 @@ public class ControlTutorial : MonoBehaviour, ITutorialStage
         var manager = DIContainer.Instance.Get<MatchManager>();
         manager.PlayerPassedRing += PassedRing;
         manager.PlayerHitTarget += HitTarget;
+        foreach(var outline  in _outlines)
+        {
+            outline.enabled = true;
+        }
+        
     }
 
     public bool CheckProgress()
@@ -38,7 +43,7 @@ public class ControlTutorial : MonoBehaviour, ITutorialStage
 
     public void CompleteStage()
     {
-        _outline.enabled = false;
+        _endTutorial.SetActive(true);
         gameObject.SetActive(false);
     }
 }

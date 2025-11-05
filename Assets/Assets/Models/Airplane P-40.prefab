@@ -806,7 +806,7 @@ GameObject:
   - component: {fileID: 4412957134387749457}
   - component: {fileID: 4308914161318285396}
   - component: {fileID: 8295869931714140704}
-  - component: {fileID: 543712838130615079}
+  - component: {fileID: 694460678845996501}
   m_Layer: 0
   m_Name: Propeller
   m_TagString: Untagged
@@ -886,7 +886,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1.85, y: 1.83, z: 1}
   m_Center: {x: -0.94, y: 0, z: 0}
---- !u!114 &543712838130615079
+--- !u!114 &694460678845996501
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -895,10 +895,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 499835937154934073}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3a95717bf0e002b409eabe18ba479532, type: 3}
+  m_Script: {fileID: 11500000, guid: b1523cec755e39d469ee45da79e92e97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _part: 0
+  _health: 100
+  _brokeParticles: {fileID: 19800000, guid: a83e0ffec52c58a47a7af8081a1dab6d, type: 3}
+  _hitParticle: {fileID: 19800002, guid: 20b31fcfaed0cb842a56fbbe2419428f, type: 3}
 --- !u!1 &548705456807548023
 GameObject:
   m_ObjectHideFlags: 0
@@ -11172,7 +11174,7 @@ GameObject:
   - component: {fileID: 4701482624403556728}
   - component: {fileID: 7361494787397034164}
   - component: {fileID: 2565623688502740260}
-  - component: {fileID: 7514731467518445769}
+  - component: {fileID: 8590289336126384383}
   m_Layer: 0
   m_Name: Circle.003
   m_TagString: Untagged
@@ -11269,7 +11271,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.0129510835, y: 0.03053999, z: 0.082014}
   m_Center: {x: 0, y: 0.004036041, z: -0.06540412}
---- !u!114 &7514731467518445769
+--- !u!114 &8590289336126384383
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -11278,10 +11280,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 7633743259226545491}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3a95717bf0e002b409eabe18ba479532, type: 3}
+  m_Script: {fileID: 11500000, guid: 97b8b078409425b40ac3ebf11a7b585b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _part: 0
+  _health: 150
+  _brokeParticles: {fileID: 19800000, guid: a83e0ffec52c58a47a7af8081a1dab6d, type: 3}
+  _hitParticle: {fileID: 19800002, guid: 20b31fcfaed0cb842a56fbbe2419428f, type: 3}
 --- !u!1 &7658540080567041726
 GameObject:
   m_ObjectHideFlags: 0
@@ -12934,7 +12938,7 @@ GameObject:
   - component: {fileID: 169267978178516603}
   - component: {fileID: 5678893236166658620}
   - component: {fileID: 2550797666453406959}
-  - component: {fileID: 4033469313649113809}
+  - component: {fileID: 3534347031690705983}
   m_Layer: 0
   m_Name: Cube.003
   m_TagString: Plane
@@ -13052,7 +13056,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.16991876, y: 0.058481425, z: 0.010180163}
   m_Center: {x: 0.007851579, y: 0.01119089, z: 0.0025661842}
---- !u!114 &4033469313649113809
+--- !u!114 &3534347031690705983
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -13061,10 +13065,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 8844543744396436034}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3a95717bf0e002b409eabe18ba479532, type: 3}
+  m_Script: {fileID: 11500000, guid: cf0e3817b0f5a754286ffab4c044d7ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _part: 2
+  _health: 100
+  _brokeParticles: {fileID: 19800000, guid: a83e0ffec52c58a47a7af8081a1dab6d, type: 3}
+  _hitParticle: {fileID: 19800002, guid: 20b31fcfaed0cb842a56fbbe2419428f, type: 3}
 --- !u!1 &8850078900686017711
 GameObject:
   m_ObjectHideFlags: 0
