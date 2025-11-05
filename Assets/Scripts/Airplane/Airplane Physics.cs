@@ -271,10 +271,8 @@ public class AirplanePhysics : MonoBehaviour
 
         Vector3 liftDirection = Vector3.Cross(liftVelocity.normalized, rightAxis);
         Vector3 lift = liftDirection * liftForce;
-
         
         float inducedDragForce = liftCoeficient * liftCoeficient * _inducedDrag;
-        //Debug.Log("Induced Drag of lift:" + inducedDragForce);
         Vector3 inducedDragDirection = -liftVelocity.normalized;
         Vector3 inducedDrag = inducedDragDirection * inducedDragForce;
 

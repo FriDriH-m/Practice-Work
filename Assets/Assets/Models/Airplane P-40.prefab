@@ -4370,10 +4370,10 @@ MonoBehaviour:
   _sterringDivider: 250
   _yoke: {fileID: 8915402158201112256}
   _maxThrust: 16000
-  _thrust: 1
+  _thrust: 0
   _liftPower: 70
   _rudderPower: 100
-  _inducedDrag: 1500
+  _inducedDrag: 7000
   _yawPower: 12000
   _liftCoefficient:
     serializedVersion: 2
@@ -4557,12 +4557,12 @@ MonoBehaviour:
       outWeight: 0
     - serializedVersion: 3
       time: 150
-      value: 0.1
-      inSlope: 0.001917143
-      outSlope: 0.001917143
+      value: 0.05
+      inSlope: 0.0009211269
+      outSlope: 0.0009211269
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.05637248
+      inWeight: 0.06740194
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
@@ -4605,12 +4605,12 @@ MonoBehaviour:
       outWeight: 0.09191177
     - serializedVersion: 3
       time: 150
-      value: 6
-      inSlope: 0.12305387
-      outSlope: 0.12305387
+      value: 4
+      inSlope: 0.08378413
+      outSlope: 0.08378413
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.04044108
+      inWeight: 0.0392156
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
@@ -4629,12 +4629,12 @@ MonoBehaviour:
       outWeight: 0.10539217
     - serializedVersion: 3
       time: 150
-      value: 6
-      inSlope: 0.12541209
-      outSlope: 0.12541209
+      value: 4
+      inSlope: 0.081514575
+      outSlope: 0.081514575
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.035539143
+      inWeight: 0.0465685
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
@@ -4653,12 +4653,12 @@ MonoBehaviour:
       outWeight: 0.09803922
     - serializedVersion: 3
       time: 150
-      value: 6
-      inSlope: 0.117413856
-      outSlope: 0.117413856
+      value: 3
+      inSlope: 0.055403776
+      outSlope: 0.055403776
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.04901957
+      inWeight: 0.047793984
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
@@ -4677,12 +4677,12 @@ MonoBehaviour:
       outWeight: 0.08466259
     - serializedVersion: 3
       time: 150
-      value: 6
-      inSlope: 0.1196986
-      outSlope: 0.1196986
+      value: 3
+      inSlope: 0.057882335
+      outSlope: 0.057882335
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.05024519
+      inWeight: 0.045343246
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
@@ -7074,6 +7074,55 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &4577557252835422829
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7405793761597137949}
+  - component: {fileID: 5675347783456585426}
+  m_Layer: 0
+  m_Name: Menu
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7405793761597137949
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4577557252835422829}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.04163257, y: -0.7149672, z: -0.04272978, w: 0.6966081}
+  m_LocalPosition: {x: 92.47297, y: -1.0031718, z: 28.9154}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6932729180520844336}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5675347783456585426
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4577557252835422829}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3a5b23b3026822488bd0207a643a096, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  xRange: {x: -40, y: 40}
+  yRange: {x: -70, y: 70}
+  zRange: {x: 50, y: 150}
+  _menu: {fileID: 997282489344080551}
+  _hand: {fileID: 8638298702645605646}
 --- !u!1 &4597444641352388426
 GameObject:
   m_ObjectHideFlags: 0
@@ -14042,6 +14091,9 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 1717954561962503726, guid: f6336ac4ac8b4d34bc5072418cdc62a0, type: 3}
+      insertIndex: 0
+      addedObject: {fileID: 7405793761597137949}
     - targetCorrespondingSourceObject: {fileID: 202364688, guid: f6336ac4ac8b4d34bc5072418cdc62a0, type: 3}
       insertIndex: 0
       addedObject: {fileID: 1235011416008269035}

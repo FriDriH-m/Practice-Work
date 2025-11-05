@@ -74,6 +74,7 @@ public class GunsShootingSystem : MonoBehaviour
         GameObject newBullet;
         if (_ammo.Count >= _gunsPositions.Length)
         {
+            Transform airplane = transform.parent;
             for (int i = 0; i < _gunsPositions.Length; i++)
             {
                 newBullet = _ammo.Dequeue();
@@ -84,7 +85,10 @@ public class GunsShootingSystem : MonoBehaviour
 
                 Rigidbody rigidbody = newBullet.GetComponent<Rigidbody>();
 
-                rigidbody.linearVelocity = _airplanePhysics.GetComponent<Rigidbody>().GetPointVelocity(_gunsPositions[i].position) + _gunsPositions[i].forward * _bulletSpeed;
+                rigidbody.linearVelocity = 
+                    _airplanePhysics.GetComponent<Rigidbody>().GetPointVelocity(_gunsPositions[i].position) 
+                    + (_gunsPositions[i].forward + airplane.up * 0.1f) 
+                    * _bulletSpeed;
                 rigidbody.angularVelocity = Vector3.zero;   
             }
         }

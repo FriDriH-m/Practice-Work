@@ -7,24 +7,19 @@ public class MatchManager
     private int _affectedTargets;
     private int _affectedTops;
 
-    public event Action PlayerWon;
+    public event Action PlayerPassedRing;
+    public event Action PlayerHitTarget;
 
     public int AffectedTargets => _affectedTargets;
     public int AffectedTops => _affectedTops;
     public void IncreaseAffectedTops()
     {
         _affectedTops++;
-        if (AffectedTargets == 3 && AffectedTops == 3)
-        {
-            PlayerWon?.Invoke();
-        }
+        PlayerPassedRing?.Invoke();
     }
     public void IncreaseAffectedTargets()
     {
         _affectedTargets++;
-        if (AffectedTargets == 3 && AffectedTops == 3)
-        {
-            PlayerWon?.Invoke();
-        }
+        PlayerHitTarget?.Invoke();
     }
 }

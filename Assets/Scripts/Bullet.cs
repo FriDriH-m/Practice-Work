@@ -1,3 +1,4 @@
+using Interfaces;
 using UnityEngine;
 
 public interface IBullet 
@@ -19,5 +20,13 @@ public class Bullet : MonoBehaviour, IBullet
     public void MakeWasDamaged() 
     {
         _isDamaged = true;
+    }
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.TryGetComponent<IDamagable>(out var damagable))
+        {
+            damagable.TakeDamage(_damage);
+        }
+        gameObject.SetActive(false);
     }
 }
