@@ -162,6 +162,15 @@ public partial class @XRInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Yaw Input"",
+                    ""type"": ""Button"",
+                    ""id"": ""0c29cf2f-22a7-4f98-937e-f2663a4272a8"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -404,6 +413,39 @@ public partial class @XRInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Eye Gaze Is Tracked"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""1D Axis"",
+                    ""id"": ""a8f5af33-d618-40b8-8b0c-285cdee7fa8b"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Yaw Input"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""342a662f-78b8-472d-af5a-977d5b67ae71"",
+                    ""path"": ""<XRController>{LeftHand}/{PrimaryButton}"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Yaw Input"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""be3cd49d-e89c-4f2a-9547-3071adca6096"",
+                    ""path"": ""<XRController>{RightHand}/{PrimaryButton}"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Yaw Input"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 }
@@ -3433,6 +3475,7 @@ public partial class @XRInput: IInputActionCollection2, IDisposable
         m_XRIHead_EyeGazeRotation = m_XRIHead.FindAction("Eye Gaze Rotation", throwIfNotFound: true);
         m_XRIHead_EyeGazeIsTracked = m_XRIHead.FindAction("Eye Gaze Is Tracked", throwIfNotFound: true);
         m_XRIHead_EyeGazeTrackingState = m_XRIHead.FindAction("Eye Gaze Tracking State", throwIfNotFound: true);
+        m_XRIHead_YawInput = m_XRIHead.FindAction("Yaw Input", throwIfNotFound: true);
         // XRI Left
         m_XRILeft = asset.FindActionMap("XRI Left", throwIfNotFound: true);
         m_XRILeft_Position = m_XRILeft.FindAction("Position", throwIfNotFound: true);
@@ -3628,6 +3671,7 @@ public partial class @XRInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_XRIHead_EyeGazeRotation;
     private readonly InputAction m_XRIHead_EyeGazeIsTracked;
     private readonly InputAction m_XRIHead_EyeGazeTrackingState;
+    private readonly InputAction m_XRIHead_YawInput;
     /// <summary>
     /// Provides access to input actions defined in input action map "XRI Head".
     /// </summary>
@@ -3671,6 +3715,10 @@ public partial class @XRInput: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "XRIHead/EyeGazeTrackingState".
         /// </summary>
         public InputAction @EyeGazeTrackingState => m_Wrapper.m_XRIHead_EyeGazeTrackingState;
+        /// <summary>
+        /// Provides access to the underlying input action "XRIHead/YawInput".
+        /// </summary>
+        public InputAction @YawInput => m_Wrapper.m_XRIHead_YawInput;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -3721,6 +3769,9 @@ public partial class @XRInput: IInputActionCollection2, IDisposable
             @EyeGazeTrackingState.started += instance.OnEyeGazeTrackingState;
             @EyeGazeTrackingState.performed += instance.OnEyeGazeTrackingState;
             @EyeGazeTrackingState.canceled += instance.OnEyeGazeTrackingState;
+            @YawInput.started += instance.OnYawInput;
+            @YawInput.performed += instance.OnYawInput;
+            @YawInput.canceled += instance.OnYawInput;
         }
 
         /// <summary>
@@ -3756,6 +3807,9 @@ public partial class @XRInput: IInputActionCollection2, IDisposable
             @EyeGazeTrackingState.started -= instance.OnEyeGazeTrackingState;
             @EyeGazeTrackingState.performed -= instance.OnEyeGazeTrackingState;
             @EyeGazeTrackingState.canceled -= instance.OnEyeGazeTrackingState;
+            @YawInput.started -= instance.OnYawInput;
+            @YawInput.performed -= instance.OnYawInput;
+            @YawInput.canceled -= instance.OnYawInput;
         }
 
         /// <summary>
@@ -5445,6 +5499,13 @@ public partial class @XRInput: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnEyeGazeTrackingState(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Yaw Input" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnYawInput(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "XRI Left" which allows adding and removing callbacks.

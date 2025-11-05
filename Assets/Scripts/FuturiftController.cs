@@ -1,6 +1,7 @@
 using Futurift.DataSenders;
 using Futurift.Options;
 using UnityEngine;
+using Utils;
 
 namespace Futurift
 {
@@ -13,6 +14,9 @@ namespace Futurift
         private AirplanePhysics _airplanePhysics;
         private Vector3 _preAngularVector;
         
+        public float Pitch {  get; private set; }
+        public float Roll { get; private set; }
+
         private void Awake()
         {
             var udpOptions = new UdpOptions
@@ -25,12 +29,7 @@ namespace Futurift
         }
         private void Start()
         {
-            _airplanePhysics = GetComponent<AirplanePhysics>();
-            //_airplanePhysics = ServiceLocator.Instance.Get<AirplanePhysics>();
-            //if (_airplanePhysics == null)
-            //{
-            //    Debug.LogError("FuturiftController: ServiceLocator does not contain a " + typeof(AirplanePhysics));
-            //}
+            _airplanePhysics = DIContainer.Instance.Get<AirplanePhysics>("Player_Plane");
         }
 
         private void FixedUpdate()
@@ -39,6 +38,9 @@ namespace Futurift
 
             _controller.Pitch = (euler.x > 180 ? euler.x - 360 : euler.x) / 2;
             _controller.Roll = -(euler.z > 180 ? euler.z - 360 : euler.z) / 7;
+
+            Pitch = (euler.x > 180 ? euler.x - 360 : euler.x) / 2;
+            Roll = -(euler.z > 180 ? euler.z - 360 : euler.z) / 7;
         }
 
         private void OnEnable()

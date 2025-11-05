@@ -4,7 +4,7 @@ using UnityEngine;
 public class SettingsData : ScriptableObject
 {
     [SerializeField] private float _pilotX = 0f;
-    [SerializeField] private float _pilotY = -0.6f;
+    [SerializeField] private float _pilotY = -0.5f;
     [SerializeField] private float _pilotZ = 0.6f;
 
     public float PilotX => _pilotX;

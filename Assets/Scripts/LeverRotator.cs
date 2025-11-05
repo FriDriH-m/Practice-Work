@@ -1,4 +1,5 @@
 using UnityEngine;
+using Utils;
 
 public class LeverRotator : MonoBehaviour, IHandRotator
 {
@@ -6,15 +7,13 @@ public class LeverRotator : MonoBehaviour, IHandRotator
     [SerializeField] private Vector3 forwardOffsetEuler = Vector3.zero;
     private Transform _hand = null;
     private AirplanePhysics _airplanePhysics;
+
+    public Transform ActiveHand => _hand;
+
+    
     private void Start()
     {
-        _airplanePhysics = GetComponentInParent<AirplanePhysics>();
-        //_airplanePhysics = ServiceLocator.Instance.Get<AirplanePhysics>();
-        //if ( _airplanePhysics == null )
-        //{
-        //    Debug.LogError("LevelRotator: ServiceLocator does not contain a " + typeof(AirplanePhysics));
-        //    return;
-        //}
+        _airplanePhysics = DIContainer.Instance.Get<AirplanePhysics>("Player_Plane");
     }
     public void SetHand(Transform hand)
     {
@@ -34,6 +33,6 @@ public class LeverRotator : MonoBehaviour, IHandRotator
 
         transform.localEulerAngles = new Vector3(x, 0, 0);
 
-        _airplanePhysics.SetThrustAccordingLeverAngles(x);
+        _airplanePhysics.SetThrust(x);
     }
 }

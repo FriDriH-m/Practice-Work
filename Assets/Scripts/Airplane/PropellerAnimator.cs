@@ -1,13 +1,14 @@
 using UnityEngine;
+using Utils;
 
 public class PropellerAnimator : MonoBehaviour
 {
     private AirplanePhysics _airplanePhysics;
     private Animator _animator;
 
-    private void Awake()
+    private void Start()
     {
-        _airplanePhysics = GetComponentInParent<AirplanePhysics>();
+        _airplanePhysics = DIContainer.Instance.Get<AirplanePhysics>("Player_Plane");
         _animator = GetComponent<Animator>();
         if (_airplanePhysics == null) Debug.LogWarning("PropellerAnimator: did not find AirplanePhysics");
     }
