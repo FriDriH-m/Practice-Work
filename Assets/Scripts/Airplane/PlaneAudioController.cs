@@ -5,6 +5,7 @@ public class PlaneAudioController : MonoBehaviour
 {
     private AudioSource _audioSource;
     private AirplanePhysics _airplanePhysics;
+    private float _preValue = 0f;
     private void Start()
     {
         _audioSource = GetComponent<AudioSource>();
@@ -13,9 +14,9 @@ public class PlaneAudioController : MonoBehaviour
 
     private void Update()
     {
-        if (_audioSource != null)
-        {
-            _audioSource.pitch = _airplanePhysics.Thrust * 1.5f;
-        }
+        if (_audioSource == null) return;
+
+        float target = _airplanePhysics.Thrust * 1.5f; 
+        _audioSource.pitch = Mathf.Lerp(_audioSource.pitch, target, 0.05f); 
     }
 }

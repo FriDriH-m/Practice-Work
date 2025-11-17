@@ -10,12 +10,25 @@ public interface IBullet
 
 public class Bullet : MonoBehaviour, IBullet
 {
+    private float _lifeTime;
     public bool _isDamaged { get; private set; }
     [field: SerializeField] public int _damage { get; private set; }
 
+    private void OnEnable()
+    {
+        _lifeTime = 8;
+    }
     private void Awake()
     {
         _isDamaged = false;
+    }
+    private void Update()
+    {
+        _lifeTime -= Time.deltaTime;
+        if (_lifeTime <= 0)
+        {
+            gameObject.SetActive(false);
+        }
     }
     public void MakeWasDamaged() 
     {
