@@ -3,6 +3,8 @@ using Utils;
 
 public class PropellerAnimator : MonoBehaviour
 {
+    [SerializeField] private float smooth = 2f; 
+
     private AirplanePhysics _airplanePhysics;
     private Animator _animator;
 
@@ -15,6 +17,7 @@ public class PropellerAnimator : MonoBehaviour
 
     private void Update()
     {
-        _animator.speed = _airplanePhysics.Thrust * 10;
+        float target = _airplanePhysics.Thrust * 10f;
+        _animator.speed = Mathf.Lerp(_animator.speed, target, smooth * Time.deltaTime);
     }
 }

@@ -76,7 +76,7 @@ public class AirplanePhysics : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.blue;
-        Vector3 worldForward = transform.TransformDirection(Vector3.forward) * 15;
+        Vector3 worldForward = transform.TransformDirection(Vector3.forward) * 1000;
         Gizmos.DrawLine(transform.position, transform.position + worldForward);
 
         Gizmos.color = Color.green;
