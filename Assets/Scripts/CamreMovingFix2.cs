@@ -8,14 +8,9 @@ public class FuturiftSimpleCompensator : MonoBehaviour
     public FuturiftController futuriftController; 
     [SerializeField] private Transform cube;
     [SerializeField] private Transform rotatingObject;
-
-    private float startX;
-    private float startZ;
-
-    private float xrX;
-    private float xrZ;
-
-    [SerializeField] private float smoothTime = 0.1f; 
+    [SerializeField] private float smoothTime = 0.35f;
+    [SerializeField] private CompensatorData data; //test
+    
     private float velX = 0f;
     private float velZ = 0f;
 
@@ -27,11 +22,6 @@ public class FuturiftSimpleCompensator : MonoBehaviour
             enabled = false;
             return;
         }
-        startX = rotatingObject.localEulerAngles.x;
-        startZ = rotatingObject.localEulerAngles.z;
-
-        xrX = transform.localPosition.x;
-        xrZ = transform.localPosition.z;
     }
 
     void LateUpdate()
@@ -39,11 +29,11 @@ public class FuturiftSimpleCompensator : MonoBehaviour
         float pitch = -futuriftController.Pitch;
         float roll = futuriftController.Roll;
 
-        float targetX = 0 - pitch * 3f;
-        float targetZ = 0 + roll;
+        float targetX = 0 - pitch * (3 * data.PitchMultiplie);
+        float targetZ = 0 + roll * (3 * data.RollMultiplie);
 
-        float newX = Mathf.SmoothDampAngle(rotatingObject.localEulerAngles.x, targetX, ref velX, smoothTime);
-        float newZ = Mathf.SmoothDampAngle(rotatingObject.localEulerAngles.z, targetZ , ref velZ, smoothTime) ;
+        float newX = Mathf.SmoothDampAngle(rotatingObject.localEulerAngles.x, targetX, ref velX, data.PitchSmoothTime);
+        float newZ = Mathf.SmoothDampAngle(rotatingObject.localEulerAngles.z, targetZ , ref velZ, data.RollSmoothTime);
 
         rotatingObject.localEulerAngles = new Vector3(newX, 0, newZ);
 

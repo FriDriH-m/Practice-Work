@@ -2,6 +2,7 @@ using System.Collections;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using Utils;
 
 public class PlaneCrash : MonoBehaviour
 {
@@ -33,9 +34,11 @@ public class PlaneCrash : MonoBehaviour
     private IEnumerator StartRespawn()
     {
         _textOpacity = 0;
+        DIContainer.Instance.Get<AirplanePhysics>("Player_Plane").SetThrust(0);
+        DIContainer.Instance.Get<Transform>("Player_Thrust").localRotation = Quaternion.identity;
         while (_textOpacity <= 1)
         {
-            _textOpacity += 0.3f * Time.deltaTime;
+            _textOpacity += 0.2f * Time.deltaTime;
             _crashText.color = new Color(_textOpacity, _textOpacity, _textOpacity);
             yield return null;
         } 

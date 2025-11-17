@@ -2,4 +2,7 @@ using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 using UnityEngine.XR.Interaction.Toolkit.Interactables;
 
-public class LeverGrab : GrabHandler<LeverRotator> { }
+public class LeverGrab : GrabHandler<LeverRotator> 
+{
+
+}

@@ -36,21 +36,15 @@ namespace Bots
 
             SwitchState(StatesList.Agro);
         }
+        private void OnDrawGizmos()
+        {
+            Gizmos.DrawSphere(FollowToPlayer.predictPos, 1f);
+        }
 
         private void Update()
         {            
             _currentState.Update(this);
-            //_airplanePhysics.SetSteeringInput(new Vector3(10, 0, 5));
-            //_avoidCrash.CheckToAviod();
         }
-        //private void OnDrawGizmos()
-        //{
-        //    Gizmos.color = Color.yellow;
-        //    if (_followToPlayer.a != null)
-        //    {
-        //        Gizmos.DrawSphere(_followToPlayer.a, 0.5f);
-        //    }
-        //}
         public void SwitchState(StatesList newState)
         {
             if (_currentState != null)
@@ -96,24 +90,21 @@ namespace Bots
         private Transform _bot;
         private BotGunsControl _guns;
         private AirplanePhysics _airplanePhysics;
-        private Rigidbody _rigidbody;
-        public Vector3 a = Vector3.zero;
+        public Vector3 predictPos = Vector3.zero;
         public FollowToPlayer(Transform player, Transform bot, BotGunsControl guns)
         {
             _guns = guns;
             _player = player;
             _bot = bot;
             _airplanePhysics = _player.GetComponent<AirplanePhysics>();
-            _rigidbody = _bot.GetComponent<Rigidbody>();
         }
-
         public void Follow(ref Vector3 inputVector)
         {
             float time = Vector3.Distance(_bot.position, _player.position) / _guns.GetBulletSpeed();
 
             Vector3 playerPredictPosition = _player.position + _player.transform.forward * _airplanePhysics.LocalVelocity.z * time;
 
-            a = playerPredictPosition;
+            predictPos = playerPredictPosition;
 
             Vector3 directionToPlayer = playerPredictPosition - _bot.position;
             Vector3 localDirection = _bot.transform.InverseTransformDirection(directionToPlayer);
@@ -127,7 +118,6 @@ namespace Bots
             float targetPitch = 0f;
             float targetRoll = 0f;
             float targetYaw = 0f;
-            
 
             if (Mathf.Abs(tanX) > 0.1f) targetPitch = Mathf.Clamp(tanX * 2, -10f, 10f);
 
@@ -150,7 +140,7 @@ namespace Bots
 
             inputVector = _smoothedInput;
 
-            bool inCrosshair = Mathf.Abs(tanX) < 0.8f && Mathf.Abs(tanZ) < 0.8f;  
+            bool inCrosshair = Mathf.Abs(tanX) < 0.5f && Mathf.Abs(tanZ) < 0.5f;  
             if (inCrosshair && time < 6f)
             {
                 _guns.Shoot();

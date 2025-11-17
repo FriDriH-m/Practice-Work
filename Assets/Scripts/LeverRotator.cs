@@ -10,7 +10,11 @@ public class LeverRotator : MonoBehaviour, IHandRotator
 
     public Transform ActiveHand => _hand;
 
-    
+    private void Awake()
+    {
+        DIContainer.Instance.Register<Transform>(transform, "Player_Thrust");
+    }
+
     private void Start()
     {
         _airplanePhysics = DIContainer.Instance.Get<AirplanePhysics>("Player_Plane");
