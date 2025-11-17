@@ -100,7 +100,7 @@ namespace Bots
         }
         public void Follow(ref Vector3 inputVector)
         {
-            float time = Vector3.Distance(_bot.position, _player.position) / _guns.GetBulletSpeed();
+            float time = Vector3.Distance(_bot.position, _player.position) / (_guns.GetBulletSpeed() + 100);
 
             Vector3 playerPredictPosition = _player.position + _player.transform.forward * _airplanePhysics.LocalVelocity.z * time;
 
@@ -119,10 +119,10 @@ namespace Bots
             float targetRoll = 0f;
             float targetYaw = 0f;
 
-            if (Mathf.Abs(tanX) > 0.1f) targetPitch = Mathf.Clamp(tanX * 2, -10f, 10f);
+            if (Mathf.Abs(tanX) > 0.01f) targetPitch = Mathf.Clamp(tanX * 2, -10f, 10f);
 
             if (Mathf.Abs(tanZ) > 1f) targetRoll = Mathf.Clamp(tanZ * 3, -10f, 10f);
-            else if (Mathf.Abs(tanZ) > 0.1f)
+            else if (Mathf.Abs(tanZ) > 0.01f)
             {
                 targetYaw = tanZ/3;
                 targetRoll = tanZ;
@@ -146,7 +146,7 @@ namespace Bots
                 _guns.Shoot();
             }
 
-            Debug.Log($"tanX: {tanX:F1}° tanZ: {tanZ:F1}° time: {time}");
+            //Debug.Log($"tanX: {tanX:F1}° tanZ: {tanZ:F1}° time: {time}");
         }
     }
 }

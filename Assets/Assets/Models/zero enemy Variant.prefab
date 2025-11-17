@@ -283,6 +283,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2518705197788732623}
+  - component: {fileID: 478881489574706598}
   m_Layer: 0
   m_Name: Gun 2
   m_TagString: Untagged
@@ -305,6 +306,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1647824260631234151}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &478881489574706598
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7578550429216773057}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c4e4b84d2bf44648a1f4e5cca62a211, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8023150097197558798
 GameObject:
   m_ObjectHideFlags: 0
@@ -314,6 +327,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1957825841011323706}
+  - component: {fileID: 5302157494408736925}
   m_Layer: 0
   m_Name: Gun 1
   m_TagString: Untagged
@@ -336,6 +350,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1647824260631234151}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5302157494408736925
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8023150097197558798}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c4e4b84d2bf44648a1f4e5cca62a211, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &7700377347785227623
 PrefabInstance:
   m_ObjectHideFlags: 0

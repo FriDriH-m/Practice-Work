@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using Utils;
 
@@ -87,12 +88,26 @@ public class GunsShootingSystem : MonoBehaviour
 
                 rigidbody.linearVelocity = 
                     _airplanePhysics.GetComponent<Rigidbody>().GetPointVelocity(_gunsPositions[i].position) 
-                    + (_gunsPositions[i].forward ) 
+                    + (_gunsPositions[i].forward + airplane.up * 0.1f) 
                     * _bulletSpeed;
                 rigidbody.angularVelocity = Vector3.zero;   
             }
         }
         yield return new WaitForSeconds(_shootingSpeed);
         _shootCoroutine = null;
+    }
+    //private void OnDrawGizmos()
+    //{
+    //    foreach (var item in _gunsPositions)
+    //    {
+    //        Debug.Log(item.ToString());
+    //        Gizmos.color = Color.red;
+    //        Vector3 worldForward = transform.TransformDirection(Vector3.forward) * 1000;
+    //        Gizmos.DrawLine(item.position, item.position + worldForward);
+    //    }        
+    //}
+    private void Update()
+    {
+        
     }
 }
