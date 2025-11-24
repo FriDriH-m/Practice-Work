@@ -8,12 +8,6 @@ public class SecondStageTutorial : MonoBehaviour, ITutorialBlock
     [SerializeField] private GameObject[] _stagesBlocks;
     private ITutorialStage _currentTutorialStage;
     private int _currentStage = 0;
-
-    /*
-     * Добавить массив с объектами, реализующих интерфейс (к примеру)ITutorialStage с методом 
-     * CheckProgress(), возвращающий bool значение. Если true, то тут переходим на след объект в массиве _stagesBlock, 
-     * и теперь у него проверяем выполнение условия через CheckProgress()
-     */
     public void ActivateBlock() { }
 
     public void NextBlock() { }

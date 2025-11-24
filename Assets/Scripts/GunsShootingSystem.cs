@@ -11,6 +11,7 @@ public class GunsShootingSystem : MonoBehaviour
     [SerializeField] private float _shootingSpeed = 1f;
     [SerializeField] private float _reloadSpeed = 15f;
     [SerializeField] private int _bulletSpeed = 300;
+    [SerializeField] private float _bulletUpwardOffset = 0.1f;
     [SerializeField] private bool isPlayer = true;
     private float _reloadTimer;
     private bool _isReloading = false;
@@ -88,7 +89,7 @@ public class GunsShootingSystem : MonoBehaviour
 
                 rigidbody.linearVelocity = 
                     _airplanePhysics.GetComponent<Rigidbody>().GetPointVelocity(_gunsPositions[i].position) 
-                    + (_gunsPositions[i].forward + airplane.up * 0.1f) 
+                    + (_gunsPositions[i].forward + airplane.up * _bulletUpwardOffset) 
                     * _bulletSpeed;
                 rigidbody.angularVelocity = Vector3.zero;   
             }

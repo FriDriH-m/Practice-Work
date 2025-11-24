@@ -36,7 +36,7 @@ public class Bullet : MonoBehaviour, IBullet
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.TryGetComponent<IDamagable>(out var damagable))
+        if (other.gameObject.TryGetComponent<PartComponent>(out var damagable))
         {
             damagable.TakeDamage(_damage);
         }

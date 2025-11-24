@@ -18,6 +18,9 @@ public class AirplaneControl : MonoBehaviour
 
     private void FixedUpdate()
     {
-        _airplanePhysics.SetSteeringInput(_yoke.localEulerAngles);
+        var targetInput = _yoke.localEulerAngles;
+        if (Mathf.Abs(_yoke.localEulerAngles.x) < 1) targetInput.x = 0;
+        if (Mathf.Abs(_yoke.localEulerAngles.z) < 1) targetInput.z = 0;
+        _airplanePhysics.SetSteeringInput(targetInput);
     }
 }

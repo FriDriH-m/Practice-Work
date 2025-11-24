@@ -70,7 +70,7 @@ namespace Bots
         {
             RaycastHit hit;
             _velocity = _airplanePhysics.transform.TransformDirection(_airplanePhysics.LocalVelocity);
-            if (Physics.Raycast(_airplanePhysics.transform.position, _velocity.normalized, out hit, _velocity.magnitude * 3))
+            if (Physics.Raycast(_airplanePhysics.transform.position, _velocity.normalized, out hit, _velocity.magnitude * 6))
             {
                 if (hit.collider.tag == "Plane")
                 {
@@ -100,7 +100,7 @@ namespace Bots
         }
         public void Follow(ref Vector3 inputVector)
         {
-            float time = Vector3.Distance(_bot.position, _player.position) / (_guns.GetBulletSpeed() + 100);
+            float time = Vector3.Distance(_bot.position, _player.position) / (_guns.GetBulletSpeed());
 
             Vector3 playerPredictPosition = _player.position + _player.transform.forward * _airplanePhysics.LocalVelocity.z * time;
 

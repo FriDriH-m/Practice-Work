@@ -12,14 +12,8 @@ namespace States
     public class Agro : IState
     {
         private Vector3 _inputVector;
-        public void Enter(BotAirplaneControl botControl)
-        {
-
-        }
-        public void Exit(BotAirplaneControl botControl)
-        {
-
-        }
+        public void Enter(BotAirplaneControl botControl) { }
+        public void Exit(BotAirplaneControl botControl) { }
         public void Update(BotAirplaneControl botControl)
         {
             if (botControl.CrashAvoidChecker.CheckToAviod()) botControl.SwitchState(StatesList.AvoidCrash);
@@ -32,26 +26,14 @@ namespace States
     {
         private Vector3 _inputVector;
         private float timer;
-        public void Enter(BotAirplaneControl botControl)
-        {
-
-        }
-        public void Exit(BotAirplaneControl botControl)
-        {
-
-        }
+        public void Enter(BotAirplaneControl botControl) { }
+        public void Exit(BotAirplaneControl botControl) { }
         public void Update(BotAirplaneControl botControl)
         {
-            if (!botControl.CrashAvoidChecker.CheckToAviod())
-            {
-                timer += Time.deltaTime;
-            }
+            if (!botControl.CrashAvoidChecker.CheckToAviod()) timer += Time.deltaTime;
             else timer = 0;
 
-            if (timer > 1.5f)
-            {
-                botControl.SwitchState(StatesList.Agro);
-            }
+            if (timer > 1.5f) botControl.SwitchState(StatesList.Agro);
 
             botControl.AirplanePhysics.SetThrust(60);
 
@@ -61,10 +43,7 @@ namespace States
 
             float rollAngle = Mathf.Atan2(horizontalRight.y, horizontalRight.x) * Mathf.Rad2Deg;
 
-            if (Mathf.Abs(rollAngle) > 2)
-            {
-                _inputVector.x = Mathf.Clamp(rollAngle, -10, 10);
-            }
+            if (Mathf.Abs(rollAngle) > 2) _inputVector.x = Mathf.Clamp(rollAngle, -10, 10);
             else _inputVector.x = 0;
             _inputVector.z = -10;
 

@@ -13,4 +13,8 @@ public class GunsSpread : MonoBehaviour
         float spreadX = Random.Range(-0.7f, 0.7f);
         transform.localEulerAngles = startRotation + new Vector3(spreadX, spreadY, 0);
     }
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawLine(transform.position, transform.position + transform.forward * 10);
+    }
 }

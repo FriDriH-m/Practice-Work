@@ -24,7 +24,12 @@ public class YokeRotator : MonoBehaviour, IHandRotator
     }
     private void YokeRotation()
     {
-        if (hand == null) return;
+        if (hand == null)
+        {
+            var targetRot = Quaternion.Euler(0, 90, 0);
+            transform.localRotation = Quaternion.Slerp(transform.localRotation, targetRot, 7f * Time.deltaTime);
+            return;
+        }
 
         transform.LookAt(hand, yoke.right);
         transform.rotation *= Quaternion.Euler(forwardOffsetEuler);

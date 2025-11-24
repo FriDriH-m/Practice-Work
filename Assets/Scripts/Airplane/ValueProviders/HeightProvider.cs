@@ -9,9 +9,5 @@ public class HeightProvider : MonoBehaviour, IIndicatorProvider
     {
         _airplanePhysics = DIContainer.Instance.Get<AirplanePhysics>("Player_Plane");
     }
-    public float GetValue()
-    {
-        return _airplanePhysics.transform.position.y;
-    }
-
+    public float GetValue() => _airplanePhysics.transform.position.y;
 }

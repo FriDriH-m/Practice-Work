@@ -34,6 +34,7 @@ public class AirplanePhysics : MonoBehaviour
 
     private bool _isEngineOn;
     private bool _isEngineBroken;
+    private bool useY = false;
     private float _thrustDivider = 1;
     private float _yawInput;
     private float _angleOfAttack;
@@ -57,7 +58,7 @@ public class AirplanePhysics : MonoBehaviour
     private Vector3 _lastInducedDrag;
     private Vector3 _lastDrag;
     private Vector3 _yawForce;
-    private bool useY = false;
+    
 
     private void Awake()
     {
